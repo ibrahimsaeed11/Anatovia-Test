@@ -94,8 +94,9 @@
 #gate .gtabs{display:flex;gap:4px;padding:4px;border-radius:12px;background:#0d2340}
 #gate .gtabs button{flex:1;height:42px;border-radius:9px;font-weight:700;font-size:15px;color:var(--g4);transition:background .2s,color .2s}
 #gate .gtabs button.on{background:var(--a);color:var(--g0)}
-#gate input,#gate select{width:100%;height:50px;border-radius:12px;border:1px solid rgba(192,230,253,.2);background:#0d2340;color:#e6f4ff;padding:0 16px;font-size:16px;font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s}
+#gate input,#gate select{width:100%;height:50px;border-radius:12px;border:1px solid rgba(192,230,253,.2);background:#0d2340;color:#e6f4ff;-webkit-text-fill-color:#e6f4ff;padding:0 16px;font-size:16px;font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s}
 #gate input::placeholder{color:var(--g4)}
+#gate input:-webkit-autofill,#gate input:-webkit-autofill:hover,#gate input:-webkit-autofill:focus,#gate input:autofill{-webkit-text-fill-color:#e6f4ff;caret-color:#e6f4ff;-webkit-box-shadow:0 0 0 60px #0d2340 inset;transition:background-color 9999s}
 #gate input:focus,#gate select:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(90,209,255,.22)}
 #gate select option,#gate select optgroup{background:#0b2038;color:#fff}
 #gate .gpw{position:relative}#gate .gpw input{padding-right:52px}#gate .gpw button{position:absolute;top:0;right:2px;height:50px;width:48px;color:var(--g4);display:grid;place-items:center}
@@ -204,7 +205,7 @@
     const email = (gA() && A.acct && A.acct.email) || '';
     return `${brandRow()}
       <div class="gc"><h2>${T('Tell us about you', 'عرّفنا بنفسك')}</h2><p class="lead">${email ? `<span dir="ltr">${esc(email)}</span> · ` : ''}${full ? T('This sets up the app for your faculty.', 'ده بيجهّز التطبيق على حسب كليتك.') : T('Almost done — just your name and study year.', 'قربنا نخلّص — اسمك وسنتك الدراسية بس.')}</p>
-        <div class="gl">${T('Your name', 'اسمك')}</div><input id="gName" autocomplete="name" maxlength="40" value="${esc(pf.name)}" placeholder="${T('Full name', 'الاسم')}">
+        <div class="gl">${T('Your name', 'اسمك')}</div><input id="gName" autocomplete="off" maxlength="40" value="${esc(pf.name)}" placeholder="${T('Full name', 'الاسم')}">
         ${full ? `<div class="gl">${T('University', 'الجامعة')}</div><select id="gUni"><option value="">${T('— Choose —', '— اختار —')}</option>${uniOpts()}</select>
         <div class="gl">${T('Faculty', 'الكلية')}</div><div class="facs">${cards}</div>` : ''}
         <div class="gl">${T('Study year', 'السنة الدراسية')}</div><div class="yrs">${yrs}</div>
@@ -372,6 +373,8 @@
     root.addEventListener('focusout', (e) => { if (e.target.id === 'gPass') { const n = e.relatedTarget; if (n && n.closest && n.closest('[data-g=eye]')) return; pwFocus = false; bono(); } });
     root.addEventListener('input', (e) => { if (e.target.id === 'gEmail' || e.target.id === 'gName') lookAtInput(e.target); if (msg && e.target.tagName === 'INPUT') { /* keep error until next submit */ } });
     window.addEventListener('pointermove', (e) => { if (!root || closed) return; const a = document.activeElement; if (a && (a.id === 'gEmail' || a.id === 'gName')) return; look(e.clientX, e.clientY); });
+    /* faculty.js loads after us: redraw once its lists exist (profile step needs them) */
+    const fw = setInterval(() => { if (closed || !root) return clearInterval(fw); if (window.ANAT_FACS && window.ANAT_UNIS) { clearInterval(fw); if (step === 'profile') render(true); } }, 250); setTimeout(() => clearInterval(fw), 20000);
     /* wire into the account module */
     const wait = setInterval(() => {
       if (!(gA() && A.gateAuth && A.setFac)) return; clearInterval(wait);
