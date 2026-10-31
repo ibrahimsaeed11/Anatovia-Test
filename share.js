@@ -33,7 +33,7 @@ if (!window.__shareLoaded) (() => {
     const W = gl.width, H = gl.height, bar = Math.round(Math.max(52, W * 0.085));
     const c = document.createElement('canvas'); c.width = W; c.height = H + bar;
     const x = c.getContext('2d');
-    const g = x.createLinearGradient(0, 0, 0, H); g.addColorStop(0, css('--bg1', '#1b3554')); g.addColorStop(1, css('--bg2', '#000f22'));
+    const g = x.createLinearGradient(0, 0, 0, H); g.addColorStop(0, css('--bg1', '#4a342a')); g.addColorStop(1, css('--bg2', '#2a1d17'));
     x.fillStyle = g; x.fillRect(0, 0, W, H);
     x.drawImage(gl, 0, 0, W, H);
     if (lm && lm.width) x.drawImage(lm, 0, 0, W, H);
@@ -53,7 +53,7 @@ if (!window.__shareLoaded) (() => {
     }
     // footer
     x.fillStyle = 'rgba(10,14,32,.96)'; x.fillRect(0, H, W, bar);
-    x.textBaseline = 'middle'; x.textAlign = 'left'; x.fillStyle = '#80aad3'; x.font = `800 ${bar * 0.42}px system-ui,Arial,sans-serif`;
+    x.textBaseline = 'middle'; x.textAlign = 'left'; x.fillStyle = '#d7c9b8'; x.font = `800 ${bar * 0.42}px system-ui,Arial,sans-serif`;
     x.fillText('Anatovia', 16 * k, H + bar * 0.38);
     x.fillStyle = 'rgba(255,255,255,.7)'; x.font = `500 ${bar * 0.25}px system-ui,Arial,sans-serif`; x.fillText(SITE, 16 * k, H + bar * 0.75);
     x.textAlign = 'right'; x.fillStyle = 'rgba(255,255,255,.45)'; x.font = `400 ${bar * 0.2}px system-ui,Arial,sans-serif`;

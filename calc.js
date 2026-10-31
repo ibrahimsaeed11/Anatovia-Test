@@ -78,7 +78,7 @@ if (!window.__calcLoaded) (() => {
   /* ───────── PDF ───────── */
   const FAM = 'system-ui,-apple-system,"Segoe UI",Tahoma,"Noto Naskh Arabic",Arial,sans-serif';
   const isAr = (s) => /[؀-ۿ]/.test(s);
-  const COL = { ink: '#18204a', mut: '#5b668f', acc: '#3f6593', good: '#2e9e5b', warn: '#c98200', bad: '#d64550', line: '#dfe5f5', soft: '#f1f4fc' };
+  const COL = { ink: '#4a342a', mut: '#7d5a44', acc: '#7d5a44', good: '#2e9e5b', warn: '#c98200', bad: '#d64550', line: '#e3d8c8', soft: '#f5f1ea' };
   function items() {
     const c = st(), out = [];
     for (const j of J()) {

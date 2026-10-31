@@ -438,9 +438,9 @@ function applyLang() {
 function applyTheme() {
   document.documentElement.dataset.theme = S.theme;
   const dark = S.theme === 'dark';
-  R.floorCol = dark ? [0.06, 0.15, 0.27] : [0.74, 0.88, 0.98]; R.lineCol = dark ? [0.50, 0.67, 0.83] : [0.25, 0.40, 0.58];
+  R.floorCol = dark ? [0.17, 0.12, 0.09] : [0.85, 0.80, 0.73]; R.lineCol = dark ? [0.70, 0.60, 0.50] : [0.49, 0.35, 0.27];
   R.floorDark = dark ? 1 : 0.55; R.light = dark ? 1 : 0.5;
-  const m = document.querySelector('meta[name=theme-color]'); if (m) m.content = dark ? '#000f22' : '#f6f8fd';
+  const m = document.querySelector('meta[name=theme-color]'); if (m) m.content = dark ? '#2a1d17' : '#f5f1ea';
   requestRender();
 }
 

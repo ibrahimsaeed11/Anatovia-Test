@@ -34,138 +34,145 @@
   let pwFocus = false, pwShow = false, lastS = '';
 
   /* ───────── Bono (inline SVG, states driven by CSS via data-s on the stage) ───────── */
-  const B = '#6f9bc8', SC = '#2a4f78';
-  const limb = (d) => `<path d="${d}" stroke="${B}" stroke-width="15" fill="none"/><path d="${d}" stroke="url(#gbn)" stroke-width="11" fill="none"/>`;
-  const cap = (x) => `<circle cx="${x}" cy="182" r="13" fill="url(#gsc)" stroke="${SC}" stroke-width="2"/>`;
-  const hand = (x, y, r) => `<circle cx="${x}" cy="${y}" r="${r}" fill="url(#gbn)" stroke="${B}" stroke-width="2"/>`;
-  const palm = (x, y, ry, lines) => `<ellipse cx="${x}" cy="${y}" rx="28" ry="${ry}" fill="url(#gbn)" stroke="${B}" stroke-width="2"/><path d="${lines}" stroke="#9fc3e6" stroke-width="2.5" fill="none"/>`;
-  const BONO = `<svg class="bono" viewBox="0 0 240 300" role="img" aria-label="Bono" focusable="false">
-<defs>
-<radialGradient id="gbn" cx=".35" cy=".28" r=".85"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#e6f4ff"/><stop offset="1" stop-color="#9fc3e6"/></radialGradient>
-<linearGradient id="gsc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b86b6"/><stop offset="1" stop-color="#34608f"/></linearGradient>
-<radialGradient id="gir" cx=".4" cy=".35" r=".75"><stop offset="0" stop-color="#c8f1ff"/><stop offset=".5" stop-color="#5ad1ff"/><stop offset="1" stop-color="#3f6593"/></radialGradient>
-</defs>
-<ellipse cx="120" cy="288" rx="62" ry="8" fill="#000f22" opacity=".55"/>
-<g class="bb" stroke-linecap="round" stroke-linejoin="round">
-<path d="M104 240v32M136 240v32" stroke="${B}" stroke-width="15" fill="none"/><path d="M104 240v32M136 240v32" stroke="url(#gbn)" stroke-width="11" fill="none"/>
-<path d="M86 282q0-10 14-10h14q4 0 4 10z M126 282q0-10 4-10h14q14 0 14 10z" fill="#5ad1ff" stroke="#2f7fa8" stroke-width="2"/>
-<path d="M84 178Q84 160 102 160H138Q156 160 156 178V232Q156 246 142 246H98Q84 246 84 232Z" fill="url(#gsc)" stroke="${SC}" stroke-width="2"/>
-<path d="M106 160l14 20 14-20z" fill="url(#gbn)"/>
-<path d="M106 164Q98 204 120 208Q142 204 134 164" stroke="#e6f4ff" stroke-width="3" fill="none"/><circle cx="120" cy="210" r="6" fill="#ffc83d" stroke="#b8860b" stroke-width="1.5"/>
-<g class="arm dn">${limb('M84 190Q70 206 72 226')}${limb('M156 190Q170 206 168 226')}${hand(72, 230, 10)}${hand(168, 230, 10)}${cap(86)}${cap(154)}</g>
-<rect x="112" y="148" width="16" height="16" fill="#c0e6fd"/>
-<rect x="84" y="130" width="72" height="30" rx="15" fill="url(#gbn)" stroke="${B}" stroke-width="2"/>
-<ellipse cx="120" cy="90" rx="76" ry="68" fill="url(#gbn)" stroke="${B}" stroke-width="2"/>
-<ellipse cx="86" cy="48" rx="24" ry="10" fill="#fff" opacity=".6" transform="rotate(-28 86 48)"/>
-<path class="tt" d="M98 146h44M108 146v10M120 146v10M132 146v10" stroke="${B}" stroke-width="2.5" fill="none"/>
-<g class="ey"><ellipse cx="90" cy="100" rx="22" ry="25" fill="#000f22"/><ellipse cx="150" cy="100" rx="22" ry="25" fill="#000f22"/>
-<g class="ir" id="gIrL"><circle cx="92" cy="102" r="14" fill="url(#gir)"/><circle cx="92" cy="102" r="6" fill="#000f22"/><circle cx="86" cy="95" r="4.5" fill="#fff"/><circle cx="98" cy="108" r="2" fill="#fff"/></g>
-<g class="ir" id="gIrR"><circle cx="152" cy="102" r="14" fill="url(#gir)"/><circle cx="152" cy="102" r="6" fill="#000f22"/><circle cx="146" cy="95" r="4.5" fill="#fff"/><circle cx="158" cy="108" r="2" fill="#fff"/></g></g>
-<path class="eh" d="M68 106q22-30 44 0M128 106q22-30 44 0" stroke="#000f22" stroke-width="8" fill="none"/>
-<ellipse cx="120" cy="122" rx="4" ry="5" fill="#000f22"/>
-<ellipse class="ch" cx="60" cy="126" rx="10" ry="6" fill="#5ad1ff" opacity=".4"/><ellipse class="ch" cx="180" cy="126" rx="10" ry="6" fill="#5ad1ff" opacity=".4"/>
-<path class="mo ms" d="M108 138q12 8 24 0" stroke="#3f6593" stroke-width="3" fill="none"/>
-<g class="mo mo-o"><path d="M98 134q22 32 44 0z" fill="#000f22" stroke="#000f22" stroke-width="3"/><ellipse cx="120" cy="150" rx="9" ry="5" fill="#ff8a9a"/></g>
-<path class="mo mf" d="M108 146q12-9 24 0" stroke="#3f6593" stroke-width="3" fill="none"/>
-<path class="tear" d="M70 128q-5 8 0 12q5-4 0-12z" fill="#5ad1ff"/>
-<g class="arm cv">${limb('M86 184Q30 170 66 112')}${limb('M154 184Q210 170 174 112')}${cap(86)}${cap(154)}${palm(90, 102, 24, 'M72 98h36M72 108h36')}${palm(150, 102, 24, 'M132 98h36M132 108h36')}</g>
-<g class="arm pk">${limb('M86 184Q30 170 66 112')}${limb('M154 184Q214 160 176 84')}${cap(86)}${cap(154)}${palm(90, 102, 24, 'M72 98h36M72 108h36')}${palm(152, 78, 13, 'M134 76h36')}</g>
-<g class="arm hp">${limb('M86 184Q36 170 40 104')}${limb('M154 184Q204 170 200 104')}${hand(40, 96, 11)}${hand(200, 96, 11)}${cap(86)}${cap(154)}</g>
-<path class="sp" d="M22 44l4 11 11 4-11 4-4 11-4-11-11-4 11-4zM206 30l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#5ad1ff"/><path class="sp" d="M214 70l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#ffc83d"/>
+  /* Bono = the sticker-pack bone mascot (same art as bono.js), rebuilt in layers so the face and arms can move */
+  const INK = '#4a342a', CRM = '#f6efe2';
+  const arm = (d) => `<path d="${d}" stroke="${INK}" stroke-width="19" fill="none" stroke-linecap="round"/><path d="${d}" stroke="${CRM}" stroke-width="11" fill="none" stroke-linecap="round"/>`;
+  const hnd = (x, y, rot, flip, sc) => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${flip * (sc || 1)},${sc || 1})"><ellipse cx="-9" cy="-6" rx="5.5" ry="7.5" transform="rotate(-30 -9 -6)" fill="#fbf6ec" stroke="${INK}" stroke-width="3.5"/><circle r="12" fill="#fbf6ec" stroke="${INK}" stroke-width="4"/><path d="M-3 4 Q2 8 7 3" stroke="${INK}" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".55"/></g>`;
+  const eye = (id, x, dx) => `<g class="ir" id="${id}"><circle cx="${x}" cy="140" r="11" fill="${INK}"/><circle cx="${x + 3.3}" cy="135.8" r="4.6" fill="#fff"/><path d="M${x - 9.9} 141.1 Q${x} 152.6 ${x + 9.9} 141.1" stroke="#d7c9b8" stroke-width="1.8" fill="none" opacity=".8"/><circle cx="${x - 3.3}" cy="143.9" r="1.8" fill="#fff"/></g>`;
+  const star = (x, y, sc, c) => `<path transform="translate(${x} ${y}) scale(${sc})" d="M0 -12 L3.5 -3.5 L12 -3 L5.5 3 L7.5 12 L0 7 L-7.5 12 L-5.5 3 L-12 -3 L-3.5 -3.5Z" fill="${c}" stroke="${INK}" stroke-width="1.5" stroke-linejoin="round"/>`;
+  const BODY = ['<rect x="100" y="58" width="100" height="184" rx="34"/>', '<circle cx="104" cy="72" r="33"/>', '<circle cx="196" cy="72" r="33"/>', '<circle cx="104" cy="228" r="33"/>', '<circle cx="196" cy="228" r="33"/>'].join('');
+  const BONO = `<svg class="bono" viewBox="50 18 200 196" role="img" aria-label="Bono" focusable="false">
+<defs><linearGradient id="gbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffaf0"/><stop offset=".65" stop-color="#f1e8d8"/><stop offset="1" stop-color="#d9e6f7"/></linearGradient></defs>
+<ellipse cx="150" cy="272" rx="88" ry="11" fill="#000" opacity=".3"/>
+<g class="bb">
+<g fill="${INK}" stroke="${INK}" stroke-width="9" stroke-linejoin="round">${BODY}</g>
+<g fill="url(#gbg)">${BODY}</g>
+<g fill="#d8c9ad" opacity=".55"><circle cx="118" cy="98" r="2.6"/><circle cx="185" cy="205" r="2.2"/><circle cx="176" cy="96" r="1.8"/><circle cx="122" cy="212" r="2.4"/><circle cx="192" cy="128" r="1.6"/></g>
+<path d="M78 70 Q74 100 90 120" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" opacity=".7"/>
+<path d="M172 238 Q200 240 214 224" stroke="#b2967d" stroke-width="5" fill="none" stroke-linecap="round" opacity=".5"/>
+<g class="arm dn">${arm('M104 160 Q74 166 72 196')}${hnd(72, 200, 0, -1)}${arm('M196 160 Q226 166 228 196')}${hnd(228, 200, 0, 1)}</g>
+<g class="ey">${eye('gIrL', 125)}${eye('gIrR', 175)}</g>
+<path class="eh" d="M114 144 Q125 128 136 144M164 144 Q175 128 186 144" stroke="${INK}" stroke-width="5" fill="none" stroke-linecap="round"/>
+<g class="br"><path d="M112 118 L132 126" stroke="${INK}" stroke-width="4.5" stroke-linecap="round"/><path d="M168 126 L188 118" stroke="${INK}" stroke-width="4.5" stroke-linecap="round"/></g>
+<path class="mo ms" d="M134 168 Q150 180 166 168" stroke="${INK}" stroke-width="5" fill="none" stroke-linecap="round"/>
+<g class="mo mo-o"><path d="M132 162 Q150 188 168 162Z" fill="${INK}"/><path d="M142 174 Q150 182 158 174" fill="#ff5d8f"/></g>
+<path class="mo mf" d="M134 178 Q150 160 166 178" stroke="${INK}" stroke-width="5" fill="none" stroke-linecap="round"/>
+<ellipse cx="108" cy="162" rx="10" ry="6" fill="#ff8fb1" opacity=".6"/><ellipse cx="192" cy="162" rx="10" ry="6" fill="#ff8fb1" opacity=".6"/>
+<ellipse class="tear" cx="116" cy="160" rx="4" ry="8" fill="#7fb2e6"/>
+<g class="arm cv">${arm('M104 162 Q80 156 112 142')}${arm('M196 162 Q220 156 188 142')}${hnd(125, 141, 0, -1, 1.5)}${hnd(175, 141, 0, 1, 1.5)}</g>
+<g class="arm pk">${arm('M104 162 Q80 156 112 142')}${arm('M196 162 Q238 150 192 112')}${hnd(125, 141, 0, -1, 1.5)}${hnd(180, 112, 20, 1, 1.4)}</g>
+<g class="arm hp">${arm('M104 158 Q70 150 66 108')}${hnd(66, 100, 10, -1)}${arm('M196 158 Q230 150 234 108')}${hnd(234, 100, -10, 1)}</g>
+<g class="sp">${star(64, 52, 0.9, '#e0b45a')}${star(238, 72, 0.7, '#b2967d')}${star(222, 34, 0.6, '#d98b6a')}</g>
 </g></svg>`;
+
+  const SPINE = [44, 52, 60, 68, 76, 84, 92, 98, 104, 108, 112, 116, 118, 120, 120].map((w, i) => `<rect class="v" style="animation-delay:${(i * 0.22).toFixed(2)}s" x="${60 - w / 2}" y="${20 + i * 52}" width="${w}" height="34" rx="14" fill="none" stroke="#d7c9b8" stroke-width="2"/>`).join('');
+
+  const FLOATS = [[8, 26, 14, 0], [18, 16, 18, 4], [30, 22, 16, 9], [44, 14, 20, 2], [57, 24, 15, 7], [68, 18, 19, 11], [79, 28, 17, 5], [90, 15, 21, 1], [36, 12, 22, 13], [63, 20, 18, 15]].map((f) => `<b style="left:${f[0]}%;--sz:${f[1]}px;--d:${f[2]}s;--dl:-${f[3]}s"></b>`).join('');
 
   /* ───────── styles ───────── */
   const css = `
-#gate{--a:#5ad1ff;--g0:#000f22;--g1:#1b3554;--g2:#3f6593;--g3:#5b86b6;--g4:#80aad3;--g5:#c0e6fd;position:fixed;inset:0;z-index:9000;display:flex;background:#000f22;color:var(--g5);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,"Noto Naskh Arabic","Noto Sans Arabic",Arial,sans-serif;transition:opacity .6s ease,transform .6s ease,visibility .6s}
+@font-face{font-family:"Cairo";src:url(fonts/cairo.woff) format("woff");font-weight:200 1000;font-style:normal;font-display:swap}
+#gate{--ln:#f5f1ea;--kh:#d7c9b8;--cm:#b2967d;--co:#7d5a44;--es:#4a342a;--pp:#fffdf9;--ls:#e3d8c8;position:fixed;inset:0;z-index:9000;overflow:auto;-webkit-overflow-scrolling:touch;background:var(--ln);color:var(--es);font-family:"Cairo","Segoe UI",Tahoma,"Noto Sans Arabic",system-ui,-apple-system,Arial,sans-serif;transition:opacity .6s ease,transform .6s ease,visibility .6s}
 #gate.out{opacity:0;transform:scale(1.03);visibility:hidden;pointer-events:none}
 #gate *{box-sizing:border-box}
 #gate button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
-#gate .gpanel{position:relative;z-index:2;flex:0 0 min(540px,46vw);overflow:auto;-webkit-overflow-scrolling:touch;background:#00162e;border-inline-end:1px solid rgba(192,230,253,.12)}
-#gate .gwrap{min-height:100%;display:flex;flex-direction:column;justify-content:center;gap:18px;padding:calc(56px + env(safe-area-inset-top)) clamp(24px,5vw,64px) calc(40px + env(safe-area-inset-bottom));max-width:620px;margin:0 auto}
+#gate .gbg{position:fixed;inset:0;overflow:hidden;pointer-events:none}
+#gate .gbg i{position:absolute;border-radius:50%}
+#gate .gbg .c1{width:760px;height:760px;background:#ebe3d6;top:-300px;inset-inline-end:-200px;animation:gdrift 14s ease-in-out infinite alternate}
+#gate .gbg .c2{width:520px;height:520px;background:#e3d8c8;bottom:-260px;inset-inline-start:-120px;animation:gdrift 18s -6s ease-in-out infinite alternate-reverse}
+@keyframes gdrift{from{transform:translate(0,0) scale(1)}to{transform:translate(40px,28px) scale(1.07)}}
+#gate .gbg b{position:absolute;bottom:-50px;width:var(--sz);height:var(--sz);opacity:0;animation:gfloat var(--d) linear infinite;animation-delay:var(--dl)}
+#gate .gbg b::before,#gate .gbg b::after{content:"";position:absolute;background:#c9b79f;border-radius:3px}#gate .gbg b::before{left:0;right:0;top:38%;height:24%}#gate .gbg b::after{top:0;bottom:0;left:38%;width:24%}
+@keyframes gfloat{0%{transform:translateY(0) rotate(0);opacity:0}12%{opacity:.55}88%{opacity:.55}100%{transform:translateY(-115vh) rotate(200deg);opacity:0}}
+#gate .gbg rect.v{transform-box:fill-box;transform-origin:center;animation:gwave 4.6s ease-in-out infinite}
+@keyframes gwave{0%,100%{transform:translateX(0);stroke:#d7c9b8}50%{transform:translateX(7px);stroke:#b2967d}}
+#gate .gbg svg{position:absolute;top:40px;width:130px;height:820px;opacity:.9;overflow:visible}
+#gate .gbg svg.s1{inset-inline-start:max(20px,calc(50% - 560px))}#gate .gbg svg.s2{inset-inline-end:max(20px,calc(50% - 560px));transform:scaleY(-1)}
+#gate .gmain{position:relative;z-index:2;min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:calc(60px + env(safe-area-inset-top)) 16px calc(20px + env(safe-area-inset-bottom))}
+#gate .gbrandk{position:fixed;top:calc(14px + env(safe-area-inset-top));inset-inline-start:22px;z-index:6;display:flex;align-items:center;gap:10px;height:38px}#gate .gbrandk b{direction:ltr;font-size:20px;font-weight:700;letter-spacing:.2px;color:var(--es)}#gate .gbrandk svg{width:30px;height:30px;animation:gspinm 16s linear infinite}
+@keyframes gspinm{to{transform:rotate(360deg)}}
+#gate .gstage{position:relative;width:min(190px,22vh,50vw);margin-bottom:-5px;z-index:1;animation:gpeek .9s .15s cubic-bezier(.2,1.3,.3,1) both}
+@keyframes gpeek{from{transform:translateY(70px);opacity:0}to{transform:none;opacity:1}}
+#gate .gsay.pop{animation:gpop .45s cubic-bezier(.2,1.5,.3,1)}
+@keyframes gpop{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+#gate .gsay{position:absolute;top:10%;inset-inline-start:calc(100% + 8px);padding:8px 14px;border-radius:14px;background:var(--pp);border:1px solid var(--ls);box-shadow:0 8px 20px rgba(74,52,42,.1);font-size:13px;font-weight:600;color:var(--es);white-space:nowrap;transition:opacity .2s}
+#gate .gcard{position:relative;z-index:2;width:min(460px,100%);padding:22px 34px 24px;background:var(--pp);border:1px solid var(--ls);border-radius:24px;box-shadow:0 30px 60px rgba(74,52,42,.14);animation:gcardin .8s cubic-bezier(.2,.9,.25,1) both}
+@keyframes gcardin{from{opacity:0;transform:translateY(40px) scale(.97)}to{opacity:1;transform:none}}
+#gate .gwrap{display:flex;flex-direction:column;gap:12px}
 #gate .gwrap.fx>*{opacity:0;animation:gup .6s cubic-bezier(.2,.9,.25,1) forwards}
 #gate .gwrap.fx>*:nth-child(2){animation-delay:.08s}#gate .gwrap.fx>*:nth-child(3){animation-delay:.16s}#gate .gwrap.fx>*:nth-child(4){animation-delay:.24s}
-@keyframes gup{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-#gate .gbrandrow{display:flex;align-items:center;gap:12px;direction:ltr;justify-content:flex-start}
-#gate .gbrandrow b{font-size:26px;font-weight:800;color:#fff;letter-spacing:.3px}
-#gate h1{margin:0;font-size:clamp(26px,3.2vw,36px);line-height:1.3;font-weight:800;color:#fff}
-#gate p.lead,#gate p.sub{margin:0;color:var(--g4);font-size:15px;line-height:1.7}
-#gate h2{margin:0 0 2px;font-size:24px;color:#fff;font-weight:800}
-#gate .gc{display:flex;flex-direction:column;gap:12px}
-#gate .gtabs{display:flex;gap:4px;padding:4px;border-radius:12px;background:#0d2340}
-#gate .gtabs button{flex:1;height:42px;border-radius:9px;font-weight:700;font-size:15px;color:var(--g4);transition:background .2s,color .2s}
-#gate .gtabs button.on{background:var(--a);color:var(--g0)}
-#gate input,#gate select{width:100%;height:50px;border-radius:12px;border:1px solid rgba(192,230,253,.2);background:#0d2340;color:#e6f4ff;-webkit-text-fill-color:#e6f4ff;padding:0 16px;font-size:16px;font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s}
-#gate input::placeholder{color:var(--g4)}
-#gate input:-webkit-autofill,#gate input:-webkit-autofill:hover,#gate input:-webkit-autofill:focus,#gate input:autofill{-webkit-text-fill-color:#e6f4ff;caret-color:#e6f4ff;-webkit-box-shadow:0 0 0 60px #0d2340 inset;transition:background-color 9999s}
-#gate input:focus,#gate select:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(90,209,255,.22)}
-#gate select option,#gate select optgroup{background:#0b2038;color:#fff}
-#gate .gpw{position:relative}#gate .gpw input{padding-right:52px}#gate .gpw button{position:absolute;top:0;right:2px;height:50px;width:48px;color:var(--g4);display:grid;place-items:center}
-#gate .gpw button:hover,#gate .gpw button.on{color:var(--a)}
-#gate .gb{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:52px;padding:0 18px;border-radius:12px;font-weight:800;font-size:16px;border:1px solid rgba(192,230,253,.28);background:transparent;color:#e6f4ff;transition:transform .15s,box-shadow .2s,background .2s}
-#gate .gb:active{transform:scale(.98)}
-#gate .gb.pri{background:var(--a);color:var(--g0);border-color:transparent;box-shadow:0 8px 28px rgba(90,209,255,.28)}
-#gate .gb.pri:hover{box-shadow:0 10px 34px rgba(90,209,255,.45)}
-#gate .gb[disabled]{opacity:.55;pointer-events:none}
-#gate .gor{display:flex;align-items:center;gap:12px;color:var(--g4);font-size:13px}
-#gate .gor::before,#gate .gor::after{content:"";flex:1;height:1px;background:rgba(192,230,253,.15)}
-#gate .ge{padding:10px 12px;border-radius:12px;background:rgba(255,107,122,.14);border:1px solid rgba(255,107,122,.4);color:#ffc2c9;font-size:14px;line-height:1.6}
-#gate .glk{color:var(--g4);font-size:14px;text-decoration:underline;text-align:center;cursor:pointer}
-#gate .gl{font-size:13px;color:var(--g5);margin:6px 0 -4px;font-weight:700}
-#gate .facs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;perspective:700px}
-#gate .fc{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:92px;padding:10px 4px;border-radius:14px;background:#0d2340;border:1.5px solid rgba(192,230,253,.16);text-align:center;font-size:12.5px;font-weight:700;line-height:1.35;color:var(--g5);transform-style:preserve-3d;transition:transform .15s ease,border-color .2s,background .2s,box-shadow .25s}
-#gate .fc .em{font-size:28px;transition:transform .25s}
-#gate .fc.sel{border-color:var(--c);background:color-mix(in srgb,var(--c) 18%,#0d2340);box-shadow:0 0 0 2px color-mix(in srgb,var(--c) 40%,transparent),0 10px 26px color-mix(in srgb,var(--c) 30%,transparent);color:#fff}
-#gate .fc.sel .em{transform:scale(1.2) translateY(-2px)}
-#gate .fc.sel::after{content:"✓";position:absolute;top:6px;inset-inline-end:8px;font-size:13px;color:var(--c)}
-#gate .yrs{display:flex;flex-wrap:wrap;gap:8px}
-#gate .yr{min-width:48px;height:42px;padding:0 14px;border-radius:12px;background:#0d2340;border:1.5px solid rgba(192,230,253,.16);font-weight:800;color:var(--g5);transition:transform .15s,background .2s,border-color .2s}
-#gate .yr.sel{background:var(--a);color:var(--g0);border-color:var(--a);transform:translateY(-2px)}
-#gate .gf{margin:0;font-size:12px;color:var(--g4);line-height:1.6}
-#gate .gcf{position:fixed;inset:0;z-index:5;display:grid;place-items:center;padding:18px;background:rgba(0,10,24,.8);animation:gfade .25s both}
-#gate .gcf .gc{max-width:420px;width:100%;padding:22px 20px;border-radius:20px;background:#0a2038;border:1px solid rgba(192,230,253,.2);box-shadow:0 24px 70px rgba(0,0,0,.6)}
+@keyframes gup{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 @keyframes gfade{to{opacity:1}}
+#gate .gnote{min-height:40px;display:flex;align-items:center;justify-content:center;text-align:center}#gate .gnote .ge{width:100%;padding:8px 12px;font-size:13px}
+#gate h1,#gate h2{margin:0;font-family:inherit;font-weight:700;color:var(--es);line-height:1.35}
+#gate h1{font-size:26px}#gate h2{font-size:24px}
+#gate p.lead,#gate p.sub{margin:6px 0 0;color:var(--co);font-size:14px;line-height:1.7}
+#gate .gc{display:flex;flex-direction:column;gap:14px}
+#gate .gtabs{display:flex;border-bottom:1px solid var(--ls)}
+#gate .gtabs button{flex:1;padding:12px 0;font-weight:500;font-size:15px;color:var(--co);border-bottom:3px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s}
+#gate .gtabs button.on{color:var(--es);font-weight:700;border-color:var(--es)}
+#gate input,#gate select{width:100%;height:46px;border-radius:12px;border:1px solid var(--kh);background:var(--pp);color:var(--es);-webkit-text-fill-color:var(--es);padding:0 16px;font-size:15px;font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s}
+#gate input::placeholder{color:#a38b77;-webkit-text-fill-color:#a38b77}
+#gate input:-webkit-autofill,#gate input:-webkit-autofill:hover,#gate input:-webkit-autofill:focus,#gate input:autofill{-webkit-text-fill-color:var(--es);caret-color:var(--es);-webkit-box-shadow:0 0 0 60px var(--pp) inset;transition:background-color 9999s}
+#gate input:focus,#gate select:focus{border-color:var(--co);box-shadow:0 0 0 3px rgba(125,90,68,.18)}
+#gate select option,#gate select optgroup{background:#fff;color:var(--es)}
+#gate .gpw{position:relative}#gate .gpw input{padding-right:52px}#gate .gpw button{position:absolute;top:0;right:2px;height:46px;width:48px;color:var(--co);display:grid;place-items:center}
+#gate .gpw button:hover,#gate .gpw button.on{color:var(--es)}
+#gate .gb{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:48px;padding:0 18px;border-radius:12px;font-weight:600;font-size:15px;border:1px solid var(--kh);background:#fff;color:var(--es);transition:transform .15s,box-shadow .2s,background .2s}
+#gate .gb:hover{background:var(--ln)}#gate .gb:active{transform:scale(.98)}
+#gate .gb.pri{background:var(--es);color:var(--ln);border-color:transparent;font-weight:700;font-size:16px;box-shadow:0 8px 20px rgba(74,52,42,.25)}
+#gate .gb.pri:hover{background:#3b2820}
+#gate .gb.pri{overflow:hidden}#gate .gb.pri::after{content:"";position:absolute;top:0;bottom:0;width:36%;left:-60%;background:linear-gradient(100deg,transparent,rgba(245,241,234,.35),transparent);transform:skewX(-20deg);animation:gshine 4.2s 1.6s ease-in-out infinite}
+@keyframes gshine{0%{left:-60%}50%,100%{left:130%}}
+#gate input:focus{transform:translateY(-1px)}
+#gate .gb[disabled]{opacity:.55;pointer-events:none}
+#gate .gor{display:flex;align-items:center;gap:12px;color:var(--co);font-size:13px}
+#gate .gor::before,#gate .gor::after{content:"";flex:1;height:1px;background:var(--ls)}
+#gate .ge{padding:10px 12px;border-radius:12px;background:#f8e7e2;border:1px solid #e2b3a6;color:#8a2f1c;font-size:14px;line-height:1.6}
+#gate .glk{color:var(--co);font-size:14px;text-decoration:underline;text-align:center;cursor:pointer}
+#gate .gl{font-size:13px;color:var(--es);margin:4px 0 -6px;font-weight:600}
+#gate .gf{margin:0;font-size:12px;color:var(--co);line-height:1.6}
+#gate .facs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;perspective:700px}
+#gate .fc{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:92px;padding:10px 4px;border-radius:14px;background:var(--pp);border:1.5px solid var(--ls);text-align:center;font-size:12.5px;font-weight:600;line-height:1.35;color:var(--es);transform-style:preserve-3d;transition:transform .15s ease,border-color .2s,background .2s,box-shadow .25s}
+#gate .fc .em{font-size:28px;transition:transform .25s}
+#gate .fc.sel{border-color:var(--c);background:color-mix(in srgb,var(--c) 14%,#fff);box-shadow:0 0 0 2px color-mix(in srgb,var(--c) 40%,transparent),0 10px 22px color-mix(in srgb,var(--c) 26%,transparent)}
+#gate .fc.sel .em{transform:scale(1.2) translateY(-2px)}
+#gate .fc.sel::after{content:"✓";position:absolute;top:6px;inset-inline-end:8px;font-size:13px;color:var(--es)}
+#gate .yrs{display:flex;flex-wrap:wrap;gap:8px}
+#gate .yr{min-width:48px;height:42px;padding:0 14px;border-radius:12px;background:var(--pp);border:1.5px solid var(--ls);font-weight:700;color:var(--es);transition:transform .15s,background .2s,border-color .2s}
+#gate .yr.sel{background:var(--es);color:var(--ln);border-color:var(--es);transform:translateY(-2px)}
+#gate .gcf{position:fixed;inset:0;z-index:5;display:grid;place-items:center;padding:18px;background:rgba(74,52,42,.55);animation:gfade .25s both}
+#gate .gcf .gc{max-width:420px;width:100%;padding:24px 22px;border-radius:20px;background:var(--pp);border:1px solid var(--ls);box-shadow:0 24px 70px rgba(74,52,42,.35)}
 #gate .gr{display:flex;gap:10px}
-#gate .gs{padding:12px;border-radius:12px;background:#0d2340;border:1px solid rgba(192,230,253,.16);font-size:14px;line-height:1.9;color:var(--g5)}
-#gate .gs b{color:#fff}
-#gate .glang{position:fixed;top:calc(12px + env(safe-area-inset-top));inset-inline-end:14px;z-index:6;height:38px;padding:0 14px;border-radius:12px;background:rgba(0,22,46,.7);border:1px solid rgba(192,230,253,.25);color:var(--g5);font-weight:700;font-size:13px;backdrop-filter:blur(6px)}
-/* stage */
-#gate .gstage{position:relative;flex:1;min-width:0;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(circle at 50% 46%,#1b3554 0%,#0a2038 38%,#000f22 74%)}
-#gate .gstage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(192,230,253,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(192,230,253,.05) 1px,transparent 1px);background-size:52px 52px;-webkit-mask-image:radial-gradient(circle at 50% 50%,#000 30%,transparent 78%);mask-image:radial-gradient(circle at 50% 50%,#000 30%,transparent 78%)}
-#gate .gring{position:absolute;left:50%;top:50%;width:min(60vh,520px);height:min(60vh,520px);transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(90,209,255,.22)}
-#gate .gring.r2{width:min(86vh,760px);height:min(86vh,760px);border:1px dashed rgba(128,170,211,.18);animation:gspin 60s linear infinite}
-@keyframes gspin{to{transform:translate(-50%,-50%) rotate(360deg)}}
-#gate .bono{position:relative;height:min(82vh,700px);width:auto;max-width:92%;filter:drop-shadow(0 0 26px rgba(90,209,255,.28))}
-#gate .bono .bb{animation:gbob 3.4s ease-in-out infinite}
-@keyframes gbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+#gate .gs{padding:12px;border-radius:12px;background:var(--ln);border:1px solid var(--ls);font-size:14px;line-height:1.9;color:var(--es)}
+#gate .glang{position:fixed;top:calc(12px + env(safe-area-inset-top));inset-inline-end:14px;z-index:6;height:38px;padding:0 14px;border-radius:12px;background:var(--pp);border:1px solid var(--kh);color:var(--es);font-weight:600;font-size:13px}
+/* Bono */
+#gate .bono{display:block;width:100%;height:auto;filter:drop-shadow(0 16px 18px rgba(74,52,42,.22))}
+#gate .bono .bb{transform-box:fill-box;transform-origin:50% 100%;animation:gbob 3.6s ease-in-out infinite}
+@keyframes gbob{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-4px) rotate(1.4deg)}70%{transform:translateY(-3px) rotate(-1.4deg)}}
 #gate .bono .ey{transform-box:fill-box;transform-origin:center;animation:gblink 5.5s infinite}
 @keyframes gblink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.08)}}
 #gate .bono .ir{transition:transform .14s ease-out}
-#gate .bono .arm{opacity:0;transform:translateY(46px);transition:opacity .22s,transform .5s cubic-bezier(.3,1.5,.5,1);pointer-events:none}
+#gate .bono .arm{opacity:0;transform:translateY(40px);transition:opacity .22s,transform .5s cubic-bezier(.3,1.5,.5,1);pointer-events:none}
 #gate .bono .arm.dn{opacity:1;transform:none}
-#gate .bono .eh,#gate .bono .mo-o,#gate .bono .mf,#gate .bono .sp,#gate .bono .tear{opacity:0;transition:opacity .2s}
+#gate .bono .eh,#gate .bono .mo-o,#gate .bono .mf,#gate .bono .sp,#gate .bono .tear,#gate .bono .br{opacity:0;transition:opacity .2s}
 #gate .gstage[data-s=cover] .arm.cv,#gate .gstage[data-s=peek] .arm.pk,#gate .gstage[data-s=happy] .arm.hp{opacity:1;transform:none}
 #gate .gstage[data-s=cover] .arm.dn,#gate .gstage[data-s=peek] .arm.dn,#gate .gstage[data-s=happy] .arm.dn{opacity:0;transform:translateY(20px)}
-#gate .gstage[data-s=happy] .ey,#gate .gstage[data-s=happy] .tt,#gate .gstage[data-s=happy] .ms{opacity:0}
+#gate .gstage[data-s=happy] .ey,#gate .gstage[data-s=happy] .ms{opacity:0}
 #gate .gstage[data-s=happy] .eh,#gate .gstage[data-s=happy] .mo-o,#gate .gstage[data-s=happy] .sp{opacity:1}
 #gate .gstage[data-s=happy] .bb{animation:ghop .7s ease-in-out infinite}
-@keyframes ghop{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-#gate .gstage[data-s=sad] .ms{opacity:0}#gate .gstage[data-s=sad] .mf,#gate .gstage[data-s=sad] .tear{opacity:1}
+@keyframes ghop{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+#gate .gstage[data-s=sad] .ms{opacity:0}#gate .gstage[data-s=sad] .mf,#gate .gstage[data-s=sad] .tear,#gate .gstage[data-s=sad] .br{opacity:1}
 #gate .bono .bb.shake{animation:gshake .5s}
 @keyframes gshake{0%,100%{transform:none}20%{transform:translateX(-8px) rotate(-2deg)}40%{transform:translateX(8px) rotate(2deg)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
-#gate .gsay{position:absolute;top:9%;inset-inline-start:50%;transform:translateX(-50%);z-index:2;padding:9px 16px;border-radius:14px;background:rgba(13,35,64,.9);border:1px solid rgba(192,230,253,.2);font-size:14px;font-weight:700;color:var(--g5);white-space:nowrap;transition:opacity .2s}
-#gate[dir=rtl] .gsay{transform:translateX(50%)}
-#gate .gchip{position:absolute;z-index:1;padding:9px 16px;border-radius:12px;background:rgba(13,35,64,.85);border:1px solid rgba(192,230,253,.18);font-size:13px;color:var(--g5)}
-#gate .gchip.c1{top:22%;inset-inline-start:7%}#gate .gchip.c2{bottom:22%;inset-inline-end:7%}#gate .gchip.c3{bottom:9%;inset-inline-start:7%}
-@media (max-width:860px){
- #gate{flex-direction:column}
- #gate .gstage{order:-1;flex:0 0 clamp(190px,34dvh,330px)}
- #gate .gpanel{flex:1;min-height:0;margin-top:-22px;border-radius:24px 24px 0 0;border:0;border-top:1px solid rgba(192,230,253,.18);box-shadow:0 -18px 44px rgba(0,15,34,.7)}
- #gate .gwrap{justify-content:flex-start;padding-top:22px;gap:14px}
- #gate .bono{height:90%;margin-top:14px}
- #gate .gchip,#gate .gring.r2{display:none}
- #gate .gsay{top:6px;font-size:13px;padding:6px 12px}
- #gate .gbrandrow{display:none}
- #gate h1{font-size:22px}
+@media (max-height:820px){#gate .sub{display:none}#gate .gcard{padding:18px 30px 18px}#gate .gmain{padding-top:54px}}
+@media (max-width:760px){
+ #gate .gbg svg,#gate .gsay{display:none}
+ #gate .gcard{padding:20px 22px 24px;border-radius:22px}
+ #gate h1{font-size:26px}
+ #gate .gstage{width:min(160px,22vh,46vw)}
+ #gate .gbrandk{inset-inline-start:14px}
+ #gate .gmain{justify-content:flex-start}
 }
 @media (prefers-reduced-motion:reduce){#gate *,#gate *::after{animation:none!important}#gate .bono .arm,#gate .bono .ir{transition-duration:.01s}}`;
   const st = document.createElement('style'); st.id = 'gateCss'; st.textContent = css; document.head.appendChild(st);
@@ -177,8 +184,8 @@
     return Object.keys(G).map((g) => `<optgroup label="${esc(ar() ? GN[g][0] : GN[g][1])}">` + G[g].map((s) => { const u = U[s.split('|')[0]]; return `<option value="${u.c}" ${pf.uni === u.c ? 'selected' : ''}>${esc(ar() ? u.ar : u.en)}</option>`; }).join('') + '</optgroup>').join('') +
       `<option value="other" ${pf.uni === 'other' ? 'selected' : ''}>${T('Other / not listed', 'أخرى / مش موجودة')}</option>`;
   };
-  const MARK = '<svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="15" fill="none" stroke="#5ad1ff" stroke-width="2"/><path d="M17 8v18M11 13h12M12 19h10" stroke="#5ad1ff" stroke-width="2" stroke-linecap="round"/></svg>';
-  const brandRow = () => `<div class="gbrandrow">${MARK}<b>Anatovia</b></div>`;
+  const MARK = '<svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="15" fill="none" stroke="#7d5a44" stroke-width="2"/><path d="M17 8v18M11 13h12M12 19h10" stroke="#7d5a44" stroke-width="2" stroke-linecap="round"/></svg>';
+  const brandRow = () => '';
   const errBox = () => (msg ? `<div class="ge" role="alert">${esc(msg)}</div>` : '');
   const nFacts = () => { const n = (window.CATALOG && CATALOG.length) || 2000; return Math.floor(n / 100) * 100; };
   const EYE = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>';
@@ -186,17 +193,15 @@
 
   function viewAuth() {
     const up = mode === 'up';
-    return `${brandRow()}
-      <div><h1>${T('Welcome to the world of anatomy', 'أهلاً بيك في عالم التشريح')}</h1><p class="sub" style="margin-top:8px">${T('Sign up once and keep studying on any device.', 'سجّل بياناتك مرة واحدة وكمّل مذاكرتك على أي جهاز.')}</p></div>
-      <div class="gc"><div class="gtabs"><button type="button" class="${up ? 'on' : ''}" data-g="tabup">${T('New account', 'حساب جديد')}</button><button type="button" class="${up ? '' : 'on'}" data-g="tabin">${T('I have an account', 'عندي حساب')}</button></div>
+    return `<div class="gtabs"><button type="button" class="${up ? 'on' : ''}" data-g="tabup">${T('New account', 'حساب جديد')}</button><button type="button" class="${up ? '' : 'on'}" data-g="tabin">${T('I have an account', 'عندي حساب')}</button></div>
+      <div><h1>${up ? T('Create your account', 'أنشئ حسابك') : T('Welcome back', 'نورتنا تاني')}</h1><p class="sub">${up ? T('Sign up once and keep studying on any device.', 'سجّل مرة واحدة وكمّل مذاكرتك على أي جهاز.') : T('Sign in and pick up where you left off.', 'ادخل وكمّل من حيث وقفت.')}</p></div>
+      <div class="gc">
         <input id="gEmail" type="email" dir="ltr" autocomplete="email" inputmode="email" aria-label="${T('E-mail', 'البريد الإلكتروني')}" placeholder="${T('E-mail', 'البريد الإلكتروني')}">
         <div class="gpw"><input id="gPass" type="password" dir="ltr" autocomplete="${up ? 'new-password' : 'current-password'}" aria-label="${T('Password', 'كلمة المرور')}" placeholder="${T('Password (6+ characters)', 'كلمة المرور (6 حروف على الأقل)')}"><button type="button" data-g="eye" aria-label="${T('Show password', 'إظهار كلمة المرور')}">${EYE}</button></div>
-        ${errBox()}
         <button class="gb pri" data-g="submit" ${busy ? 'disabled' : ''}>${busy ? '…' : up ? T('Create account', 'إنشاء الحساب') : T('Sign in', 'دخول')}</button>
         <div class="gor">${T('or', 'أو')}</div>
         <button class="gb" data-g="google" ${busy ? 'disabled' : ''}>${GOOGLE}${T('Continue with Google', 'المتابعة بحساب Google')}</button>
-        ${up ? '' : `<a class="glk" data-g="reset">${T('Forgot password?', 'نسيت كلمة المرور؟')}</a>`}</div>
-      <p class="gf">${T('Sign-up is required once — it personalises the app for your faculty.', 'التسجيل مطلوب مرة واحدة — بيجهّز التطبيق على حسب كليتك.')}</p>`;
+        <div class="gnote">${msg ? `<div class="ge" role="alert">${esc(msg)}</div>` : up ? `<p class="gf">${T('Sign-up is required once — it personalises the app for your faculty.', 'التسجيل مطلوب مرة واحدة — بيجهّز التطبيق على حسب كليتك.')}</p>` : `<a class="glk" data-g="reset">${T('Forgot password?', 'نسيت كلمة المرور؟')}</a>`}</div></div>`;
   }
   function viewProfile() {
     const full = !(gA() && A.acct && A.acct.uni && A.acct.fac), F = facData(), codes = Object.keys(F);
@@ -230,7 +235,7 @@
     return `${brandRow()}<div class="gc"><h2>${T('Internet needed', 'محتاج إنترنت')}</h2><p class="lead">${T('Connect to the internet once to create or sign in to your account. After that the app works offline.', 'اتصل بالإنترنت مرة واحدة عشان تعمل حسابك أو تسجل دخول. بعد كده التطبيق بيشتغل أوفلاين.')}</p><button class="gb pri" data-g="retry">${T('Try again', 'حاول تاني')}</button></div>`;
   }
   const VIEW = { auth: viewAuth, profile: viewProfile, done: viewDone, offline: viewOffline };
-  const panel = () => root.querySelector('.gpanel');
+  const panel = () => root;
 
   /* ───────── Bono behaviour ───────── */
   const SAY = () => ({ idle: T('Hi! I\'m Bono 👋', 'أهلاً! أنا بونو 👋'), cover: T('I\'m not looking… 🙈', 'مش باصص... 🙈'), peek: T('Just a tiny peek 👀', 'بصّة صغننة 👀'), happy: T('Welcome aboard! 🎉', 'أهلاً بيك! 🎉'), sad: T('Hmm, try again', 'جرّب تاني') });
@@ -238,14 +243,14 @@
     if (!root) return; const stg = root.querySelector('.gstage'); if (!stg) return;
     let s = 'idle';
     if (step === 'done') s = 'happy'; else if (pwFocus && step === 'auth') s = pwShow ? 'peek' : 'cover'; else if (msg) s = 'sad';
-    stg.dataset.s = s; const say = root.querySelector('.gsay'); if (say) say.textContent = SAY()[s];
+    stg.dataset.s = s; const say = root.querySelector('.gsay'); if (say && say.textContent !== SAY()[s]) { say.textContent = SAY()[s]; say.classList.remove('pop'); void say.offsetWidth; say.classList.add('pop'); }
     if (s === 'sad' && lastS !== 'sad' && !reduce) { const b = stg.querySelector('.bb'); if (b) { b.classList.remove('shake'); void b.getBoundingClientRect(); b.classList.add('shake'); } }
     lastS = s;
   }
   function look(x, y) {
     const svg = root && root.querySelector('.bono'); if (!svg) return; const r = svg.getBoundingClientRect(); if (!r.width) return;
-    const cx = r.left + r.width / 2, cy = r.top + r.height * 0.34;
-    const dx = Math.max(-1, Math.min(1, (x - cx) / (innerWidth * 0.35))) * 7, dy = Math.max(-1, Math.min(1, (y - cy) / (innerHeight * 0.35))) * 6;
+    const cx = r.left + r.width / 2, cy = r.top + r.height * 0.5;
+    const dx = Math.max(-1, Math.min(1, (x - cx) / (innerWidth * 0.35))) * 4, dy = Math.max(-1, Math.min(1, (y - cy) / (innerHeight * 0.35))) * 3.5;
     ['gIrL', 'gIrR'].forEach((id) => { const e = $(id); if (e) e.style.transform = `translate(${dx.toFixed(1)}px,${dy.toFixed(1)}px)`; });
   }
   function lookAtInput(el) {
@@ -267,10 +272,9 @@
     if (live && $(live)) { try { $(live).focus(); } catch (e) { /* ignore */ } }
     if (keepScroll) pn.scrollTop = keep;
     root.querySelector('.glang').textContent = T('العربية', 'English');
-    const c = root.querySelector('.gchips'); if (c) c.innerHTML = chips();
     bono();
   }
-  const chips = () => `<span class="gchip c1">${nFacts()}+ ${T('3D models', 'نموذج ثلاثي الأبعاد')}</span><span class="gchip c2">${T('Arabic & English', 'عربي وإنجليزي')}</span><span class="gchip c3">${T('Quizzes & progress', 'اختبارات وتقارير تقدّم')}</span>`;
+  const chips = () => `<div><b>${nFacts()}+</b><small>${T('3D models', 'نموذج ثلاثي الأبعاد')}</small></div><div><b>AR · EN</b><small>${T('Arabic & English', 'عربي وإنجليزي')}</small></div><div><b>${T('Quiz', 'كويز')}</b><small>${T('Quizzes & progress', 'اختبارات وتقارير')}</small></div>`;
 
   /* 3D tilt on faculty cards */
   function tilt() {
@@ -347,7 +351,7 @@
     if (root) return; window.__gateOn = true;
     document.querySelectorAll('.tour').forEach((e) => e.remove());
     root = document.createElement('div'); root.id = 'gate';
-    root.innerHTML = `<div class="gpanel"><div class="gwrap fx"></div></div><div class="gstage" data-s="idle"><i class="gring"></i><i class="gring r2"></i><div class="gsay"></div><div class="gchips">${chips()}</div>${BONO}</div><button class="glang" type="button"></button>`;
+    root.innerHTML = `<div class="gbg"><i class="c1"></i><i class="c2"></i>${FLOATS}<svg class="s1" viewBox="0 0 120 820" aria-hidden="true">${SPINE}</svg><svg class="s2" viewBox="0 0 120 820" aria-hidden="true">${SPINE}</svg></div><div class="gbrandk">${MARK}<b>Anatovia</b></div><div class="gmain"><div class="gstage" data-s="idle"><div class="gsay"></div>${BONO}</div><div class="gcard"><div class="gwrap fx"></div></div></div><button class="glang" type="button"></button>`;
     document.body.appendChild(root);
     if (cache && cache.email) { step = 'profile'; }
     render(); tilt(); setTimeout(() => { const w = root && root.querySelector('.gwrap'); if (w) w.classList.remove('fx'); }, 1100);
