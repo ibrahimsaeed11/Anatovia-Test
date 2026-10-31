@@ -1,0 +1,19 @@
+{
+  "name": "Anatovia",
+  "short_name": "Anatovia",
+  "description": "Interactive 3D human anatomy — Arabic & English",
+  "id": "./index.html",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#000f22",
+  "theme_color": "#000f22",
+  "lang": "ar",
+  "dir": "auto",
+  "icons": [
+    { "src": "icons/icon-192.png?v=10", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png?v=10", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png?v=10", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

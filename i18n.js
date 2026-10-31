@@ -1,0 +1,98 @@
+/* i18n.js — UI strings (Arabic / English) and small text helpers. */
+'use strict';
+const STR = {
+  appName: { en: 'Anatovia', ar: 'Anatovia' },
+  tagline: { en: 'Explore the human body in 3D', ar: 'استكشف جسم الإنسان بالـ 3D' },
+  searchPh: { en: 'Search a part…', ar: 'ابحث…' },
+  loading: { en: 'Loading the model…', ar: 'جارٍ تحميل المجسم…' },
+  loadingSys: { en: 'Loading layer…', ar: 'جارٍ تحميل الطبقة…' },
+  bone: { en: 'Bones', ar: 'العظام' }, muscle: { en: 'Muscles', ar: 'العضلات' },
+  vessel: { en: 'Vessels', ar: 'الأوعية' }, nerve: { en: 'Nerves', ar: 'الأعصاب' }, brain: { en: 'Brain', ar: 'الدماغ' }, organ: { en: 'Organs', ar: 'الأعضاء' }, ligament: { en: 'Ligaments & tendons', ar: 'الأربطة والأوتار' },
+  layers: { en: 'Layers', ar: 'الطبقات' },
+  off: { en: 'Hidden', ar: 'مخفي' }, on: { en: 'Shown', ar: 'ظاهر' }, ghost: { en: 'Faded', ar: 'شفاف' },
+  regions: { en: 'Regions', ar: 'المناطق' }, allBody: { en: 'Whole body', ar: 'الجسم كله' },
+  head: { en: 'Head & face', ar: 'الرأس والوجه' }, neck: { en: 'Neck', ar: 'الرقبة' },
+  spine: { en: 'Spine & back', ar: 'العمود الفقري والظهر' }, thorax: { en: 'Chest', ar: 'الصدر' },
+  abdomen: { en: 'Abdomen', ar: 'البطن' }, pelvis: { en: 'Pelvis', ar: 'الحوض' },
+  upper: { en: 'Upper limb', ar: 'الطرف العلوي' }, lower: { en: 'Lower limb', ar: 'الطرف السفلي' },
+  explode: { en: 'Disassemble', ar: 'فكّ الأجزاء' }, assemble: { en: 'Assemble', ar: 'تجميع' },
+  resetView: { en: 'Reset all', ar: 'رجّع كل حاجة' }, spin: { en: 'Auto-rotate', ar: 'دوران تلقائي' },
+  undo: { en: 'Undo hide', ar: 'تراجع' }, showAll: { en: 'Show all', ar: 'إظهار الكل' },
+  hidePart: { en: 'Hide (peel layer)', ar: 'إخفاء (إزالة الطبقة)' }, isolate: { en: 'Isolate', ar: 'عزل' },
+  pullOut: { en: 'Pull out', ar: 'سحب للخارج' }, putBack: { en: 'Put back', ar: 'إعادة' },
+  study: { en: 'Study', ar: 'المذاكرة' }, close: { en: 'Close', ar: 'إغلاق' },
+  quiz: { en: 'Quiz', ar: 'اختبار' }, cards: { en: 'Flashcards', ar: 'بطاقات المراجعة' },
+  moves: { en: 'Movement finder', ar: 'باحث الحركات' }, progress: { en: 'My progress', ar: 'تقدّمي' },
+  favs: { en: 'Favourites & notes', ar: 'المفضلة والملاحظات' }, about: { en: 'About & licence', ar: 'عن التطبيق والترخيص' },
+  quizSub: { en: '10 questions · score · what to improve', ar: '10 أسئلة · نتيجة · ما تحتاج تحسينه' },
+  cardsSub: { en: 'Spaced repetition for what you forget', ar: 'مراجعة متباعدة لما تنساه' },
+  movesSub: { en: 'Pick a movement → see the muscles that do it', ar: 'اختر حركة ← شاهد العضلات المسؤولة عنها' },
+  progressSub: { en: 'Streak, parts learned, quiz history', ar: 'الاستمرارية، ما تعلّمته، سجل الاختبارات' },
+  favsSub: { en: 'Starred parts and your own notes', ar: 'الأجزاء المميزة وملاحظاتك' },
+  aboutSub: { en: 'Credits, offline use, important notes', ar: 'المصادر، الاستخدام بدون إنترنت، ملاحظات مهمة' },
+  // panel
+  origin: { en: 'Origin', ar: 'المنشأ' }, insertion: { en: 'Insertion', ar: 'المرتكز' },
+  action: { en: 'Action', ar: 'الحركة' }, nerve: { en: 'Nerve supply', ar: 'التعصيب' },
+  keyFacts: { en: 'Key facts', ar: 'معلومات مهمة' }, ptNote: { en: 'Clinical / physio note', ar: 'ملاحظة سريرية / علاج طبيعي' },
+  actsIn: { en: 'Takes part in', ar: 'يشارك في' }, learned: { en: 'I know it', ar: 'حفظتها' },
+  fav: { en: 'Favourite', ar: 'مفضلة' }, notes: { en: 'My notes', ar: 'ملاحظاتي' }, notePh: { en: 'Write a note…', ar: 'اكتب ملاحظة…' },
+  tapHint: { en: 'Tap any part · drag to rotate · pinch to zoom', ar: 'المس أي جزء · اسحب للدوران · قرّب بإصبعين' },
+  side_r: { en: 'Right', ar: 'يمين' }, side_l: { en: 'Left', ar: 'يسار' },
+  kind_bone: { en: 'Bone', ar: 'عظمة' }, kind_cart: { en: 'Cartilage', ar: 'غضروف' }, kind_disc: { en: 'Disc', ar: 'قرص' },
+  kind_muscle: { en: 'Muscle', ar: 'عضلة' }, kind_tendon: { en: 'Tendon / ligament', ar: 'وتر / رباط' },
+  kind_artery: { en: 'Artery', ar: 'شريان' }, kind_vein: { en: 'Vein', ar: 'وريد' }, kind_nerve: { en: 'Nerve', ar: 'عصب' }, kind_brain: { en: 'Brain structure', ar: 'تركيب دماغي' }, kind_tooth: { en: 'Tooth', ar: 'سنّ' }, kind_organ: { en: 'Organ', ar: 'عضو' }, kind_lig: { en: 'Ligament', ar: 'رباط' }, kind_capsule: { en: 'Joint capsule', ar: 'محفظة مفصلية' }, kind_fibro: { en: 'Fibrocartilage', ar: 'غضروف ليفي' }, kind_retin: { en: 'Tendon / fascia', ar: 'وتر / لفافة' }, kind_bursa: { en: 'Bursa', ar: 'جراب' },
+  noResults: { en: 'No results', ar: 'لا نتائج' },
+  // quiz
+  quizSetup: { en: 'Start a quiz', ar: 'ابدأ اختباراً' }, mode: { en: 'Mode', ar: 'النمط' },
+  m_tap: { en: 'Find it on the model', ar: 'اعثر عليها في المجسم' }, m_name: { en: 'Name the highlighted part', ar: 'سمِّ الجزء المضيء' },
+  m_clue: { en: 'Guess from clue', ar: 'خمّن من الوصف' }, m_mix: { en: 'Mixed', ar: 'متنوّع' },
+  scope: { en: 'Topic', ar: 'الموضوع' }, allSys: { en: 'Everything', ar: 'الكل' },
+  length: { en: 'Questions', ar: 'عدد الأسئلة' }, start: { en: 'Start', ar: 'ابدأ' },
+  qFind: { en: 'Tap on', ar: 'المس' }, qName: { en: 'What is the highlighted part?', ar: 'ما هو الجزء المضيء؟' },
+  qClue: { en: 'Which part is this?', ar: 'أي جزء هذا؟' },
+  correct: { en: 'Correct!', ar: 'صحيح!' }, wrong: { en: 'Not quite — it was', ar: 'ليس تماماً — الإجابة' },
+  next: { en: 'Next', ar: 'التالي' }, finish: { en: 'See result', ar: 'عرض النتيجة' }, skip: { en: 'Skip', ar: 'تخطّي' },
+  exit: { en: 'Exit', ar: 'خروج' }, result: { en: 'Your result', ar: 'نتيجتك' },
+  score: { en: 'Score', ar: 'الدرجة' }, timeTaken: { en: 'Time', ar: 'الوقت' },
+  improve: { en: 'What to improve', ar: 'ما تحتاج تحسينه' }, byArea: { en: 'By area', ar: 'حسب المنطقة' },
+  mistakes: { en: 'Mistakes — tap to review', ar: 'الأخطاء — المس للمراجعة' },
+  retry: { en: 'Try again', ar: 'اختبار جديد' }, reviewMistakes: { en: 'Add mistakes to flashcards', ar: 'أضف الأخطاء إلى البطاقات' },
+  addedCards: { en: 'Added to your flashcards', ar: 'أُضيفت إلى بطاقاتك' }, perfect: { en: 'Perfect score — excellent!', ar: 'درجة كاملة — ممتاز!' },
+  g_great: { en: 'Excellent work!', ar: 'عمل ممتاز!' }, g_good: { en: 'Good — a little more review.', ar: 'جيد — يحتاج مراجعة بسيطة.' },
+  g_ok: { en: 'Fair — keep practising.', ar: 'مقبول — واصل التدريب.' }, g_low: { en: 'Needs more study — start with flashcards.', ar: 'تحتاج مذاكرة أكثر — ابدأ بالبطاقات.' },
+  focusOn: { en: 'Focus on', ar: 'ركّز على' }, history: { en: 'Quiz history', ar: 'سجل الاختبارات' },
+  vsPrev: { en: 'vs previous', ar: 'مقارنة بالسابق' }, noHistory: { en: 'No quizzes yet', ar: 'لا اختبارات بعد' },
+  // cards
+  cardsSetup: { en: 'Flashcards', ar: 'بطاقات المراجعة' }, dueNow: { en: 'due', ar: 'مستحقة' }, newCards: { en: 'new', ar: 'جديدة' },
+  showAnswer: { en: 'Show answer', ar: 'اظهر الإجابة' }, again: { en: 'Again', ar: 'مرة أخرى' }, good: { en: 'Good', ar: 'جيد' }, easy: { en: 'Easy', ar: 'سهل' },
+  noCards: { en: 'All caught up! Come back later.', ar: 'خلّصت كل المستحق! ارجع لاحقاً.' }, showIn3d: { en: 'Show in 3D', ar: 'اعرضها في المجسم' },
+  whatIsThis: { en: 'Name this part and its job', ar: 'ما اسم هذا الجزء ووظيفته؟' }, cardDone: { en: 'Session finished', ar: 'انتهت الجلسة' },
+  // moves
+  clear: { en: 'Clear', ar: 'مسح' }, primeMovers: { en: 'Prime movers', ar: 'العضلات المحرّكة الرئيسية' },
+  // progress
+  streak: { en: 'day streak', ar: 'يوم متتالٍ' }, learnedParts: { en: 'parts learned', ar: 'جزء محفوظ' },
+  quizzes: { en: 'quizzes', ar: 'اختبارات' }, avgScore: { en: 'average', ar: 'المتوسط' },
+  resetProgress: { en: 'Reset all progress', ar: 'مسح كل التقدّم' }, confirmReset: { en: 'Delete all progress, notes and favourites?', ar: 'مسح كل التقدّم والملاحظات والمفضلة؟' },
+  noFavs: { en: 'Star parts with ★ to see them here.', ar: 'ضع ★ على الأجزاء لتظهر هنا.' },
+  // about
+  install: { en: 'Install app', ar: 'تثبيت التطبيق' }, offline: { en: 'Download for offline use', ar: 'تنزيل للاستخدام بدون إنترنت' },
+  offlineDone: { en: 'Everything is saved for offline use.', ar: 'تم حفظ كل شيء للاستخدام بدون إنترنت.' },
+  theme: { en: 'Theme', ar: 'المظهر' }, lang: { en: 'العربية', ar: 'English' },
+  installHelp: { en: 'iPhone: Share → Add to Home Screen. Android/PC: browser menu → Install app.', ar: 'آيفون: مشاركة ← إضافة إلى الشاشة الرئيسية. أندرويد/كمبيوتر: قائمة المتصفح ← تثبيت التطبيق.' },
+  credits: {
+    en: '3D anatomy data: BodyParts3D © The Database Center for Life Science, licensed under CC BY-SA 2.1 Japan (dbcls.rois.ac.jp/en/). Nerves, brain, ligaments and tendons: Z-Anatomy (github.com/LluisV/Z-Anatomy, built on the Open Anatomy Project), licensed under CC BY-SA 4.0. Meshes were simplified for mobile and one-sided structures were mirrored. Adaptations of this data must be shared under the same licence (CC BY-SA). Permanent tooth models: University of Dundee, School of Dentistry (Sketchfab), licensed under CC Attribution; they were simplified and re-positioned, and the right-side teeth are mirrored copies. Wisdom-tooth positions and deciduous teeth are approximate.',
+    ar: 'بيانات التشريح ثلاثية الأبعاد: BodyParts3D © مركز قواعد بيانات علوم الحياة، بترخيص CC BY-SA 2.1 Japan. الأعصاب والدماغ والأربطة والأوتار: Z-Anatomy (github.com/LluisV/Z-Anatomy) المبني على مشروع Open Anatomy، بترخيص CC BY-SA 4.0. تم تبسيط المجسمات لتناسب الهاتف وعكس التراكيب أحادية الجانب. يجب مشاركة أي تعديل على هذه البيانات بنفس الترخيص. مجسمات الأسنان الدائمة: جامعة دندي، كلية طب الأسنان (Sketchfab)، بترخيص CC Attribution؛ تم تبسيطها وإعادة ضبط أماكنها، وأسنان الجانب الأيمن نسخ معكوسة. أماكن أضراس العقل والأسنان اللبنية تقريبية.' },
+  dentPerm: { en: 'Permanent teeth', ar: 'أسنان دائمة' }, dentDec: { en: 'Deciduous teeth', ar: 'أسنان لبنية' },
+  dentDecTip: { en: 'Deciduous (milk) teeth, 20 — tap again for permanent teeth', ar: 'الأسنان اللبنية (20) — اضغط تاني للأسنان الدائمة' }, dentPermTip: { en: 'Permanent teeth, 32', ar: 'الأسنان الدائمة (32)' },
+  importantNotes: { en: 'Important notes', ar: 'ملاحظات مهمة' },
+  limits: {
+    en: 'Educational aid only. Texts are drafts and should be reviewed by a physician/anatomist before publishing. The model shows the trunk vessels only (small peripheral vessels, skin and the eye/ear details are not included), and proportions are those of a standard adult male.',
+    ar: 'أداة تعليمية فقط. النصوص مسودة ويجب أن يراجعها طبيب/أخصائي تشريح قبل النشر. المجسم يعرض الأوعية الكبرى فقط (لا يشمل الأوعية الصغيرة والجلد وتفاصيل العين والأذن)، والأبعاد لذكر بالغ قياسي.' },
+  webgl: { en: 'Your browser does not support WebGL, which this app needs.', ar: 'متصفحك لا يدعم WebGL المطلوب لهذا التطبيق.' },
+};
+const REGIONS = ['head', 'neck', 'spine', 'thorax', 'abdomen', 'pelvis', 'upper', 'lower'];
+const SYSTEMS = ['bone', 'muscle', 'vessel', 'nerve', 'brain', 'organ', 'ligament'];
+/* Arabic-insensitive search normalisation */
+function norm(s) {
+  return (s || '').toLowerCase().replace(/[ً-ٰٟـ]/g, '').replace(/[إأآ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه').replace(/ؤ/g, 'و').replace(/ئ/g, 'ي');
+}

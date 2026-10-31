@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Anatovia</title>
+<meta name="description" content="Interactive 3D human anatomy — Arabic & English">
+<meta name="theme-color" content="#000f22">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg?v=10"><link rel="icon" type="image/png" href="icons/icon-192.png?v=10">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=10">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Anatovia">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<script src="firebase-config.js"></script>
+<script src="gate.js"></script>
+<div id="app">
+  <main id="stage">
+    <div id="view"><canvas id="gl" tabindex="0" aria-label="3D anatomy"></canvas><canvas id="lm" aria-hidden="true"></canvas></div>
+
+    <header class="top">
+      <button id="btnStudy" class="btn-study" type="button"><svg viewBox="0 0 24 24" class="ico"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15zM4 20.5A2.5 2.5 0 0 0 6.5 23H20"/></svg><span id="lblStudy"></span></button>
+      <div class="search">
+        <svg viewBox="0 0 24 24" class="ico s-ico"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+        <input id="q" type="search" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" aria-label="search">
+        <ul id="results" class="results" hidden></ul>
+      </div>
+      <button id="btnTheme" class="round" type="button" aria-label="theme"><svg viewBox="0 0 24 24" class="ico"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg></button>
+      <button id="btnLang" class="round txt" type="button"></button>
+    </header>
+
+    <nav class="chips" id="chips" aria-label="tools"></nav>
+    <div id="explodeBar" class="explode-bar" hidden><span id="lblExplodeBar"></span><input id="explodeRange" type="range" min="0" max="100" value="0"><button id="explodeDone" class="mini" type="button">✓</button></div>
+    <div id="moveBar" class="move-bar" hidden></div>
+
+    <div id="hint" class="hint"></div>
+    <div id="toast" class="toast" hidden></div>
+    <div id="loading" class="loading"><div class="spin"></div><p id="loadMsg"></p></div>
+    <div id="fatal" class="fatal" hidden><p id="fatalMsg"></p></div>
+  </main>
+
+  <aside id="panel" class="panel closed" aria-live="polite">
+    <button id="sheetHandle" class="handle" type="button" aria-label="toggle"><span></span></button>
+    <button id="panelClose" class="panel-x" type="button" aria-label="close">✕</button>
+    <div id="panelBody" class="panel-body"></div>
+  </aside>
+
+  <div id="quizBar" class="quizbar" hidden></div>
+
+  <div id="modal" class="modal" hidden><div class="modal-card" role="dialog" aria-modal="true"><button id="modalX" class="panel-x" type="button" aria-label="close">✕</button><div id="modalBody"></div></div></div>
+</div>
+<noscript><p style="padding:24px">يتطلب هذا التطبيق تفعيل JavaScript. / This app requires JavaScript.</p></noscript>
+<script src="i18n.js"></script>
+<script src="catalog.js"></script>
+<script src="landmarks.js"></script>
+<script src="gl.js"></script>
+<script src="packs.js"></script>
+<script src="store.js"></script>
+<script src="app.js"></script>
+<script src="study.js"></script>
+<script src="features.js"></script>
+<script src="clinic-data.js"></script>
+<script src="clinic.js"></script>
+<script src="spinal-data.js"></script>
+<script src="play.js"></script>
+<script src="account.js"></script>
+<script src="faculty.js"></script>
+<script src="tour.js"></script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Anatovia Admin</title>
+<style>
+:root{--bg:#0b102e;--card:#141b45;--line:#2a3470;--ink:#eef1ff;--mut:#9aa6d6;--acc:#5eead4;--bad:#ff7b8a;--good:#7be495}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,"Segoe UI",Tahoma,Arial,sans-serif;padding:16px;max-width:980px;margin-inline:auto}
+h1{font-size:22px;margin:0 0 4px}h2{font-size:17px;margin:0 0 10px}.mut{color:var(--mut)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:14px 0}
+button,select,input{font:inherit;color:inherit;background:#1d2660;border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+button{cursor:pointer;font-weight:700}button.p{background:var(--acc);color:#04201c;border:0}button.d{color:var(--bad)}button.s{padding:4px 9px;font-size:12.5px}button:disabled{opacity:.5}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}.stat{background:#1d2660;border-radius:12px;padding:10px;text-align:center}.stat b{display:block;font-size:22px;color:var(--acc)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}th,td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:start;vertical-align:middle}th{color:var(--mut)}
+.tw{overflow-x:auto}code,.code{font-family:ui-monospace,Consolas,monospace;direction:ltr;unicode-bidi:embed}
+.tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;background:#1d2660}.tag.ok{color:var(--good)}.tag.no{color:var(--bad)}
+textarea{width:100%;min-height:110px;background:#0b102e;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;font-family:ui-monospace,Consolas,monospace;direction:ltr}
+#msg{margin:8px 0;min-height:22px}#msg.bad{color:var(--bad)}#msg.ok{color:var(--good)}
+</style>
+</head>
+<body>
+<h1>Anatovia — لوحة الإدارة</h1>
+<div class="mut">لك أنت فقط. الحماية من قواعد Firebase، مش من إخفاء الصفحة.</div>
+<div id="msg"></div>
+
+<div id="login" class="card" hidden>
+  <h2>تسجيل الدخول</h2>
+  <button class="p" id="gbtn">دخول بحساب Google</button>
+  <p class="mut">لازم تدخل بأحد الإيميلات المحددة في القواعد.</p>
+</div>
+
+<div id="app" hidden>
+  <div class="row" style="justify-content:space-between"><div id="who" class="mut code"></div><div class="row"><button id="reload">🔄 تحديث</button><button id="out" class="d">خروج</button></div></div>
+
+  <div class="card"><div class="stats" id="stats"></div></div>
+
+  <div class="card">
+    <h2>توليد أكواد جديدة</h2>
+    <div class="row">
+      <label>المدة <select id="days"><option value="30">شهر — 75 جنيه</option><option value="90" selected>3 شهور — 180 جنيه</option><option value="180">6 شهور — 300 جنيه</option><option value="365">سنة — 450 جنيه</option></select></label>
+      <label>العدد <input id="count" type="number" min="1" max="100" value="5" style="width:80px"></label>
+      <label>ملاحظة <input id="note" placeholder="اختياري: اسم المشتري" style="width:180px"></label>
+      <button class="p" id="gen">ولّد</button>
+    </div>
+    <div id="newBox" hidden style="margin-top:10px">
+      <div class="mut">الأكواد الجديدة (انسخها وابعتها):</div>
+      <textarea id="newCodes" readonly></textarea>
+      <button id="copy">📋 نسخ الكل</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>الأكواد</h2>
+    <div class="row"><select id="cf"><option value="all">الكل</option><option value="unused">غير مستخدمة</option><option value="used">مستخدمة</option></select></div>
+    <div class="tw"><table id="codes"></table></div>
+  </div>
+
+  <div class="card">
+    <h2>🏅 المتصدرون الأسبوعيون</h2>
+    <div class="row" style="margin-bottom:8px"><select id="bwk"></select><button id="bload">تحديث</button></div>
+    <div class="tw"><table id="btable"></table></div>
+    <label class="row" style="margin:12px 0 4px;gap:8px"><input type="checkbox" id="bopen" style="width:20px;height:20px"> <b>فتح المتصدرين للطلاب</b> <span class="mut">(بيتحفظ فورًا بمجرد ما تعلّم أو تشيل العلامة)</span></label>
+    <h3 style="margin:14px 0 6px;font-size:15px">الهدايا (تتغير من هنا في أي وقت)</h3>
+    <div class="row" style="flex-direction:column;align-items:stretch;gap:6px">
+      <input id="p1" placeholder="هدية المركز الأول (عربي)"><input id="e1" dir="ltr" placeholder="1st gift (English)">
+      <input id="p2" placeholder="هدية المركز الثاني (اختياري)"><input id="e2" dir="ltr" placeholder="2nd gift (optional)">
+      <input id="p3" placeholder="هدية المركز الثالث (اختياري)"><input id="e3" dir="ltr" placeholder="3rd gift (optional)">
+      <button id="psave" class="p">حفظ الهدايا</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎓 حرب الكليات</h2>
+    <p class="mut">الترتيب = مجموع نقاط أعلى 10 طلاب نشيطين (10 نقاط فأكثر في الأسبوع)، ولازم 5 نشيطين على الأقل. الأرقام بتتحسب هنا وبعدين تنشرها للطلاب بالزرار.</p>
+    <div class="row" style="margin-bottom:8px"><select id="fwk"></select><button id="fload">احسب الترتيب</button><button id="fpub" class="p">نشر الترتيب للطلاب</button></div>
+    <div class="tw"><table id="ftable"></table></div>
+    <div id="fmem" style="margin-top:10px"></div>
+    <h3 style="margin:14px 0 6px;font-size:15px">هدية الكلية الفايزة</h3>
+    <div class="row" style="flex-direction:column;align-items:stretch;gap:6px"><input id="pf1" placeholder="هدية الكلية الأولى (عربي)"><input id="ef1" dir="ltr" placeholder="Winning faculty gift (English)"><button id="pfsave" class="p">حفظ هدية الكليات</button></div>
+  </div>
+
+  <div id="fedit"></div>
+  <div class="card">
+    <h2>المستخدمون</h2>
+    <div class="row" style="margin-bottom:8px"><input id="uq" placeholder="ابحث بالإيميل…" style="flex:1;min-width:160px;direction:ltr"><select id="uf"><option value="all">الكل</option><option value="prem">مشتركون</option><option value="free">مجانيون</option><option value="unv">بريد غير مؤكد</option></select></div>
+    <div class="tw"><table id="users"></table></div>
+  </div>
+</div>
+
+<script src="firebase-config.js"></script>
+<script src="faculty.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+'use strict';
+const ADMINS = ['ibrahim1162006@gmail.com', 'anaselbieli@gmail.com'];
+const $ = (id) => document.getElementById(id);
+const say = (m, k) => { $('msg').textContent = m || ''; $('msg').className = k || ''; };
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const fmt = (ts) => { if (!ts) return '—'; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' }); };
+firebase.initializeApp(window.FIREBASE_CONFIG);
+const auth = firebase.auth(), db = firebase.firestore(), FV = firebase.firestore.FieldValue;
+let users = [], codes = [];
+
+$('gbtn').onclick = async () => { try { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); } catch (e) { say('فشل تسجيل الدخول: ' + (e.code || e.message), 'bad'); } };
+$('out').onclick = () => auth.signOut();
+$('reload').onclick = () => load();
+auth.onAuthStateChanged((u) => {
+  if (!u) { $('login').hidden = false; $('app').hidden = true; return; }
+  if (!ADMINS.includes(u.email) || !u.emailVerified) { say('هذا الحساب (' + u.email + ') غير مسموح له.', 'bad'); auth.signOut(); return; }
+  say(''); $('login').hidden = true; $('app').hidden = false; $('who').textContent = u.email; load();
+});
+
+const wkStart = (off) => { const x = new Date(); x.setHours(0, 0, 0, 0); x.setDate(x.getDate() - ((x.getDay() + 1) % 7) - 7 * off); return x.getFullYear() * 10000 + (x.getMonth() + 1) * 100 + x.getDate(); };
+$('bwk').innerHTML = [0, 1, 2, 3].map((o) => `<option value="${wkStart(o)}">${o === 0 ? 'هذا الأسبوع' : o === 1 ? 'الأسبوع الماضي' : 'قبلها بـ ' + (o - 1) + ' أسبوع'} (${wkStart(o)})</option>`).join('');
+async function loadBoard() {
+  try {
+    const wk = $('bwk').value, q = await db.collection('weeks').doc(wk).collection('scores').orderBy('pts', 'desc').limit(20).get();
+    const em = Object.fromEntries(users.map((u) => [u.id, u.email]));
+    let gifts = {}; try { (await db.collection('gifts').get()).docs.forEach((g) => { gifts[g.id] = true; }); } catch (e) { /* rules not published yet */ }
+    const prize = (n) => ($('p' + n).value || '').trim();
+    $('btable').innerHTML = '<tr><th>#</th><th>الاسم المستعار</th><th>الإيميل</th><th>نقاط</th><th>إجابات</th><th>تواصل</th><th>الهدية</th><th></th></tr>' + (q.docs.map((d, i) => {
+      const r = d.data(), rk = i + 1, mail = em[r.uid] || '', top = rk <= 3, done = !!gifts[wk + '_' + d.id];
+      const body = `السلام عليكم يا ${r.name}،\nمبروك! جبت المركز ${rk} في متصدري Anatovia (أسبوع ${wk}). 🏅\n` + (prize(rk) ? `هديتك: ${prize(rk)}\n` : '') + 'كلمني على واتساب 01050761015 علشان تستلمها.\nAnatovia';
+      const mailto = mail ? `<a href="mailto:${esc(mail)}?subject=${encodeURIComponent('مبروك! المركز ' + rk + ' في متصدري Anatovia')}&body=${encodeURIComponent(body)}" class="s" style="text-decoration:none;display:inline-block;padding:4px 9px;border:1px solid var(--line);border-radius:10px;color:inherit">✉️ راسله</a>` : '—';
+      const gift = top ? `<button class="s ${done ? 'p' : ''}" data-gift="${esc(wk + '|' + d.id + '|' + rk + '|' + (r.name || ''))}" data-done="${done ? 1 : 0}">${done ? '✅ تم التسليم' : 'تم التسليم؟'}</button>` : '';
+      return `<tr><td>${['🥇', '🥈', '🥉'][i] || rk}</td><td>${esc(r.name)}</td><td class="code">${esc(mail || r.uid)}</td><td>${r.pts}</td><td>${r.c}/${r.q}</td><td>${top ? mailto : ''}</td><td>${gift}</td><td><button class="s d" data-bdel="${esc(wk + '/' + d.id)}">حذف</button></td></tr>`;
+    }).join('') || '<tr><td colspan="8">مفيش بيانات</td></tr>');
+    const cs = await db.collection('config').doc('board').get(), c = cs.exists ? cs.data() : { p1: 'خصم 20% على أي باقة', e1: '20% off any plan' };
+    ['p1', 'e1', 'p2', 'e2', 'p3', 'e3'].forEach((k) => { if (document.activeElement !== $(k)) $(k).value = c[k] || ''; });
+    $('bopen').checked = c.open === true;
+  } catch (e) { say('خطأ في المتصدرين: ' + (e.code || e.message) + ' — تأكد من نشر القواعد الجديدة.', 'bad'); }
+}
+$('bopen').onchange = async () => { const on = $('bopen').checked; try { await db.collection('config').doc('board').set({ open: on }, { merge: true }); say(on ? 'المتصدرون مفتوحون للطلاب ✅' : 'المتصدرون مقفولون (قريبًا)', 'ok'); } catch (e) { $('bopen').checked = !on; say('فشل الحفظ: ' + (e.code || e.message), 'bad'); } };
+$('bload').onclick = loadBoard; $('bwk').onchange = loadBoard;
+$('psave').onclick = async () => { const o = {}; ['p1', 'e1', 'p2', 'e2', 'p3', 'e3'].forEach((k) => { o[k] = $(k).value.trim(); }); o.open = $('bopen').checked; try { await db.collection('config').doc('board').set(o); say(o.open ? 'تم الحفظ — المتصدرون مفتوحون للطلاب ✅' : 'تم الحفظ — المتصدرون مقفولون (قريبًا)', 'ok'); } catch (e) { say('فشل الحفظ: ' + (e.code || e.message), 'bad'); } };
+document.addEventListener('click', async (ev) => {
+  const g = ev.target.closest('[data-gift]');
+  if (g) { const [wk, uid, rk, name] = g.dataset.gift.split('|'), id = wk + '_' + uid; try { if (g.dataset.done === '1') { if (!confirm('إلغاء علامة التسليم؟')) return; await db.collection('gifts').doc(id).delete(); } else await db.collection('gifts').doc(id).set({ wk, uid, rank: +rk, name, at: FV.serverTimestamp() }); loadBoard(); } catch (e) { say('فشل: ' + (e.code || e.message) + ' — انشر القواعد الجديدة.', 'bad'); } return; }
+  const b = ev.target.closest('[data-bdel]'); if (!b) return; if (!confirm('حذف هذا الاسم من المتصدرين؟')) return; const [wk, id] = b.dataset.bdel.split('/'); try { await db.collection('weeks').doc(wk).collection('scores').doc(id).delete(); loadBoard(); } catch (e) { say('فشل الحذف: ' + (e.code || e.message), 'bad'); } });
+
+async function load() {
+  say('جارِ التحميل…');
+  try {
+    const [us, cs] = await Promise.all([db.collection('users').get(), db.collection('codes').orderBy('createdAt', 'desc').limit(500).get()]);
+    users = us.docs.map((d) => ({ id: d.id, ...d.data() }));
+    codes = cs.docs.map((d) => ({ id: d.id, ...d.data() }));
+    draw(); say(''); loadBoard(); loadFac();
+  } catch (e) { say('خطأ في القراءة: ' + (e.code || e.message) + ' — تأكد أنك نشرت قواعد Firestore.', 'bad'); }
+}
+
+/* ───────── حرب الكليات ───────── */
+const UN = window.ANAT_UNIS, FC = window.ANAT_FACS, F_ACT = 10, F_TOP = 10, F_MIN = 5, F_ELIG = 50;
+$('fwk').innerHTML = $('bwk').innerHTML;
+let FR = null;
+const wkDateOf = (wk) => new Date(+wk.slice(0, 4), +wk.slice(4, 6) - 1, +wk.slice(6));
+async function loadFac() {
+  try {
+    const wk = $('fwk').value, q = await db.collection('weeks').doc(wk).collection('scores').get(), g = {};
+    q.docs.forEach((d) => { const r = d.data(); if (!r.uni || !r.fac || r.uni === 'other' || r.fac === 'other') return; (g[r.uni + '|' + r.fac] = g[r.uni + '|' + r.fac] || []).push({ id: d.id, name: r.name, pts: r.pts }); });
+    const rows = Object.keys(g).map((k) => { const [u, f] = k.split('|'), act = g[k].filter((x) => x.pts >= F_ACT).sort((a, b) => b.pts - a.pts); return { k, u, f, s: act.slice(0, F_TOP).reduce((t, x) => t + x.pts, 0), n: act.length, all: g[k].length, m: act }; });
+    FR = { wk, rows }; drawFac();
+    const cs = await db.collection('config').doc('board').get(), c = cs.exists ? cs.data() : {};
+    if (document.activeElement !== $('pf1')) $('pf1').value = c.pf1 || ''; if (document.activeElement !== $('ef1')) $('ef1').value = c.ef1 || '';
+  } catch (e) { say('خطأ في الكليات: ' + (e.code || e.message), 'bad'); }
+}
+function drawFac() {
+  if (!FR) return; const types = [...new Set(FR.rows.map((r) => r.f))];
+  let h = '<tr><th>#</th><th>الجامعة</th><th>نقاط (أعلى 10)</th><th>نشيطون</th><th>الحالة</th><th></th></tr>';
+  if (!FR.rows.length) h += '<tr><td colspan="6" class="mut">مفيش بيانات للكليات في الأسبوع ده (الطلاب لازم يختاروا جامعتهم وكليتهم الأول)</td></tr>';
+  types.forEach((f) => {
+    h += `<tr><th colspan="6" style="text-align:right">${esc(FC[f] ? FC[f].ar : f)}</th></tr>`;
+    const list = FR.rows.filter((r) => r.f === f).sort((a, b) => b.s - a.s); let rk = 0;
+    list.forEach((r) => { const ok = r.n >= F_MIN; if (ok) rk++; h += `<tr><td>${ok ? (['🥇', '🥈', '🥉'][rk - 1] || rk) : '—'}</td><td>${esc(UN[r.u] ? UN[r.u].ar : r.u)}</td><td>${r.s}</td><td>${r.n} / ${r.all}</td><td><span class="tag ${ok ? 'ok' : 'no'}">${ok ? 'مؤهلة' : 'ناقص نشيطين'}</span></td><td><button class="s" data-fmem="${esc(r.k)}">الأعضاء</button></td></tr>`; });
+  });
+  $('ftable').innerHTML = h;
+}
+$('fload').onclick = loadFac; $('fwk').onchange = loadFac;
+$('fpub').onclick = async () => {
+  if (!FR) return say('اضغط «احسب الترتيب» الأول.', 'bad');
+  const rows = FR.rows.filter((r) => r.n >= F_MIN).map((r) => ({ u: r.u, f: r.f, s: r.s, n: r.n }));
+  if (!rows.length) return say('مفيش كليات مؤهلة للنشر.', 'bad');
+  if (!confirm('نشر ترتيب الأسبوع ' + FR.wk + ' للطلاب؟ (' + rows.length + ' كلية)')) return;
+  try { await db.collection('config').doc('facrank').set({ wk: FR.wk, at: FV.serverTimestamp(), rows }); say('تم نشر الترتيب ✅', 'ok'); } catch (e) { say('فشل النشر: ' + (e.code || e.message), 'bad'); }
+};
+$('pfsave').onclick = async () => { try { await db.collection('config').doc('board').set({ pf1: $('pf1').value.trim(), ef1: $('ef1').value.trim() }, { merge: true }); say('تم حفظ هدية الكليات ✅', 'ok'); } catch (e) { say('فشل الحفظ: ' + (e.code || e.message), 'bad'); } };
+function showMembers(k) {
+  const r = FR && FR.rows.find((x) => x.k === k); if (!r) return;
+  const em = Object.fromEntries(users.map((u) => [u.id, u])), st = wkDateOf(FR.wk).getTime(); let elig = [];
+  const body = r.m.map((x) => { const u = em[x.id] || {}, at = u.facAt && u.facAt.toMillis ? u.facAt.toMillis() : 0, ok = x.pts >= F_ELIG && at && at < st; if (ok) elig.push(u.email); return `<tr><td>${esc(x.name)}</td><td class="code">${esc(u.email || x.id)}</td><td>${x.pts}</td><td>${at ? fmt(u.facAt) : '—'}</td><td><span class="tag ${ok ? 'ok' : 'no'}">${ok ? 'مؤهل للهدية' : (x.pts < F_ELIG ? 'أقل من 50 نقطة' : 'سجّل الكلية بعد بداية الأسبوع')}</span></td></tr>`; }).join('');
+  $('fmem').innerHTML = `<h3 style="font-size:15px;margin:6px 0">${esc((FC[r.f] ? FC[r.f].ar : r.f) + ' — ' + (UN[r.u] ? UN[r.u].ar : r.u))}</h3><div class="tw"><table><tr><th>الاسم</th><th>الإيميل</th><th>نقاط</th><th>اختار الكلية</th><th>الحالة</th></tr>${body || '<tr><td colspan="5">لا أحد</td></tr>'}</table></div>` +
+    `<p class="mut">المؤهلين للهدية (${elig.length}) — تأكد من كارنيه الكلية قبل التسليم:</p><textarea readonly style="width:100%;height:70px;direction:ltr">${esc(elig.join(', '))}</textarea>`;
+}
+/* admin-only: change / clear a student's university + faculty */
+function editFac(id) {
+  const u = users.find((x) => x.id === id); if (!u) return;
+  const uo = Object.keys(UN).map((c) => `<option value="${c}" ${u.uni === c ? 'selected' : ''}>${esc(UN[c].ar)}</option>`).join('') + `<option value="other" ${u.uni === 'other' ? 'selected' : ''}>أخرى</option>`;
+  const fo = Object.keys(FC).map((c) => `<option value="${c}" ${u.fac === c ? 'selected' : ''}>${esc(FC[c].ar)}</option>`).join('');
+  $('fedit').innerHTML = `<div class="card" style="border-color:var(--accent,#8c9cff)"><b class="code">${esc(u.email)}</b><div class="row" style="margin:8px 0"><select id="eu">${uo}</select><select id="ef">${fo}</select></div><div class="row"><button class="p" id="esave">حفظ</button><button class="d s" id="eclear">مسح الاختيار (يختار تاني)</button><button class="s" id="ecancel">إلغاء</button></div></div>`;
+  $('fedit').scrollIntoView({ block: 'center' });
+  $('ecancel').onclick = () => { $('fedit').innerHTML = ''; };
+  $('esave').onclick = async () => { try { await db.collection('users').doc(id).update({ uni: $('eu').value, fac: $('ef').value, facAt: FV.serverTimestamp() }); $('fedit').innerHTML = ''; say('تم التعديل ✅', 'ok'); load(); } catch (e) { say('فشل: ' + (e.code || e.message), 'bad'); } };
+  $('eclear').onclick = async () => { if (!confirm('مسح اختيار الطالب؟ هيطلب منه يختار تاني.')) return; try { await db.collection('users').doc(id).update({ uni: FV.delete(), fac: FV.delete(), facAt: FV.delete() }); $('fedit').innerHTML = ''; say('تم المسح ✅', 'ok'); load(); } catch (e) { say('فشل: ' + (e.code || e.message), 'bad'); } };
+}
+document.addEventListener('click', (ev) => {
+  const m = ev.target.closest('[data-fmem]'); if (m) return showMembers(m.dataset.fmem);
+  const e = ev.target.closest('[data-fedit]'); if (e) editFac(e.dataset.fedit);
+});
+
+const PRICE = { 30: 75, 90: 180, 180: 300, 365: 450 };
+const DUR = { 30: 'شهر', 90: '3 شهور', 180: '6 شهور', 365: 'سنة' };
+const prov = (u) => (u.provider || '').split(',').filter(Boolean).map((p) => (p.includes('google') ? 'Google' : p.includes('password') ? 'إيميل' : p)).join(' + ') || '—';
+const isOn = (u, now) => u.premiumUntil && u.premiumUntil.toMillis() > now;
+const isTrial = (u) => u.trialUsed && !u.lastCode;
+function draw() {
+  const now = Date.now();
+  const active = users.filter((u) => isOn(u, now) && !isTrial(u)).length;
+  const trials = users.filter((u) => isOn(u, now) && isTrial(u)).length, trialsAll = users.filter((u) => u.trialUsed).length;
+  const unv = users.filter((u) => u.verified === false).length;
+  const used = codes.filter((c) => c.used).length;
+  const money = codes.filter((c) => c.used).reduce((s, c) => s + (PRICE[c.days] || 0), 0);
+  $('stats').innerHTML = [['المستخدمون', users.length], ['مشتركون نشطون', active], ['في التجربة الآن', trials], ['أخدوا تجربة', trialsAll], ['بريد غير مؤكد', unv], ['أكواد متاحة', codes.length - used], ['أكواد مستخدمة', used], ['مبيعات تقريبية (جنيه)', money]].map(([a, b]) => `<div class="stat"><b>${b}</b>${a}</div>`).join('');
+  const em = Object.fromEntries(users.map((u) => [u.id, u.email]));
+  const f = $('cf').value;
+  const list = codes.filter((c) => f === 'all' || (f === 'used') === !!c.used);
+  $('codes').innerHTML = '<tr><th>الكود</th><th>الباقة</th><th>الحالة</th><th>المستخدم</th><th>ملاحظة</th><th></th></tr>' + (list.map((c) =>
+    `<tr><td class="code">${esc(c.id)}</td><td>${esc(DUR[c.days] || c.days + ' يوم')}${PRICE[c.days] ? ' · ' + PRICE[c.days] + ' جنيه' : ''}</td><td><span class="tag ${c.used ? 'no' : 'ok'}">${c.used ? 'مستخدم ' + fmt(c.usedAt) : 'متاح'}</span></td><td class="code">${esc(em[c.usedBy] || c.usedBy || '')}</td><td>${esc(c.note || '')}</td><td>${c.used ? '' : `<button class="d s" data-del="${esc(c.id)}">حذف</button>`}</td></tr>`).join('') || '<tr><td colspan="6" class="mut">لا يوجد</td></tr>');
+  const q = ($('uq').value || '').trim().toLowerCase(), uf = $('uf').value;
+  const ul = users.filter((u) => (!q || String(u.email || '').toLowerCase().includes(q)) &&
+    (uf === 'all' || (uf === 'prem' && isOn(u, now)) || (uf === 'free' && !isOn(u, now)) || (uf === 'unv' && u.verified === false)));
+  ul.sort((a, b) => (b.createdAt ? b.createdAt.toMillis() : 0) - (a.createdAt ? a.createdAt.toMillis() : 0));
+  $('users').innerHTML = '<tr><th>الإيميل</th><th>الدخول</th><th>الاشتراك</th><th>الكلية</th><th>أجهزة</th><th>آخر كود</th><th>سجّل</th><th>آخر دخول</th><th></th></tr>' + (ul.map((u) => {
+    const on = isOn(u, now);
+    const ver = u.verified === false ? '<span class="tag no">غير مؤكد</span>' : u.verified === true ? '<span class="tag ok">مؤكد</span>' : '';
+    return `<tr><td class="code">${esc(u.email)}</td><td>${esc(prov(u))} ${ver}</td><td><span class="tag ${on ? 'ok' : ''}">${on ? (isTrial(u) ? 'تجربة حتى ' : 'حتى ') + fmt(u.premiumUntil) : (u.trialUsed ? 'مجاني (خلّص التجربة)' : 'مجاني')}</span></td><td>${u.fac ? esc((UN[u.uni] ? UN[u.uni].ar : u.uni) + ' — ' + (FC[u.fac] ? FC[u.fac].ar : u.fac)) : '<span class="mut">—</span>'} <button class="s" data-fedit="${u.id}">✏️</button></td><td>${(u.devices || []).length}</td><td class="code">${esc(u.lastCode || '')}</td><td>${fmt(u.createdAt)}</td><td>${fmt(u.lastSeen)}</td>` +
+      `<td><div class="row"><select class="gd" data-for="${u.id}"><option value="30">شهر</option><option value="90">3 شهور</option><option value="180">6 شهور</option><option value="365">سنة</option></select><button class="s" data-grant="${u.id}">إضافة</button><button class="s" data-reset="${u.id}">صفّر الأجهزة</button>${on ? `<button class="d s" data-revoke="${u.id}">إلغاء</button>` : ''}</div></td></tr>`;
+  }).join('') || '<tr><td colspan="9" class="mut">لا يوجد</td></tr>');
+}
+$('uq').oninput = draw; $('uf').onchange = draw;
+$('cf').onchange = draw;
+
+const ALPHA = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+function rnd(n) { const a = new Uint32Array(n); crypto.getRandomValues(a); return [...a].map((x) => ALPHA[x % ALPHA.length]).join(''); }
+$('gen').onclick = async () => {
+  const days = +$('days').value, n = Math.max(1, Math.min(100, +$('count').value || 1)), note = $('note').value.trim();
+  const made = [], batch = db.batch();
+  const taken = new Set(codes.map((c) => c.id));
+  while (made.length < n) { const c = `ANAT-${rnd(4)}-${rnd(4)}`; if (taken.has(c)) continue; taken.add(c); made.push(c); batch.set(db.collection('codes').doc(c), { days, used: false, createdAt: FV.serverTimestamp(), note }); }
+  try { await batch.commit(); $('newCodes').value = made.join('\n'); $('newBox').hidden = false; say(`تم توليد ${n} كود (${days} يوم)`, 'ok'); load(); }
+  catch (e) { say('فشل التوليد: ' + (e.code || e.message), 'bad'); }
+};
+$('copy').onclick = async () => { try { await navigator.clipboard.writeText($('newCodes').value); say('تم النسخ', 'ok'); } catch (e) { $('newCodes').select(); say('اضغط Ctrl+C للنسخ'); } };
+
+document.addEventListener('click', async (ev) => {
+  const b = ev.target.closest('button'); if (!b) return;
+  try {
+    if (b.dataset.del) { if (!confirm('حذف الكود ' + b.dataset.del + '؟')) return; await db.collection('codes').doc(b.dataset.del).delete(); load(); }
+    else if (b.dataset.grant) {
+      const u = users.find((x) => x.id === b.dataset.grant), cur = u.premiumUntil ? u.premiumUntil.toMillis() : 0;
+      const days = +document.querySelector('select.gd[data-for="' + u.id + '"]').value;
+      if (!confirm('إضافة ' + (DUR[days] || days + ' يوم') + ' لـ ' + u.email + '؟')) return;
+      await db.collection('users').doc(u.id).update({ premiumUntil: firebase.firestore.Timestamp.fromMillis(Math.max(cur, Date.now()) + days * 864e5) }); load();
+    } else if (b.dataset.reset) { await db.collection('users').doc(b.dataset.reset).update({ devices: [] }); load(); }
+    else if (b.dataset.revoke) { if (!confirm('إلغاء اشتراك هذا المستخدم؟')) return; await db.collection('users').doc(b.dataset.revoke).update({ premiumUntil: FV.delete() }); load(); }
+  } catch (e) { say('فشل: ' + (e.code || e.message), 'bad'); }
+});
+</script>
+</body>
+</html>
