@@ -13,8 +13,8 @@
   const ls = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* ignore */ } } };
 
   Object.assign(STR, {
-    account: { en: 'Account & Premium', ar: 'الحساب والاشتراك' },
-    accountSub: { en: 'Sign in · activate a premium code', ar: 'تسجيل الدخول · تفعيل كود الاشتراك' },
+    account: { en: 'My account', ar: 'حسابي' },
+    accountSub: { en: 'Profile · subscription · activation code', ar: 'بياناتك · الاشتراك · كود التفعيل' },
   });
   A.hubExtra = Object.assign(A.hubExtra || {}, { account: () => open() });
 
@@ -311,7 +311,7 @@
       ? `السلام عليكم، عايز أشترك في Anatovia.\nالباقة: ${pl.ar}\nالسعر: ${pl.egp} جنيه\nإيميلي على التطبيق: ${A_.email || ''}`
       : `Hello, I'd like to subscribe to Anatovia.\nPlan: ${pl.en}\nPrice: ${pl.egp} EGP\nMy e-mail in the app: ${A_.email || ''}`;
     const trialCard = (!A_.premium && !A_.trialUsed && !A_.limited) ? `<div class="advice" style="margin:10px 0">🎁 <b>${T('Try Premium free for 3 days', 'جرّب النسخة المميزة 3 أيام مجانًا')}</b><div class="tiny">${T('One time per account — no payment needed.', 'مرة واحدة لكل حساب — من غير دفع.')}</div><button class="btn primary wide" style="margin-top:8px" data-act="acc" data-k="trial" ${st.busy ? 'disabled' : ''}>${T('Start my free trial', 'ابدأ تجربتي المجانية')}</button></div>` : '';
-    return head + `<div class="acc-card"><b dir="ltr">${esc(A_.email || '')}</b>${badge}</div>${lim}${msgBox()}` + trialCard +
+    return head + `<div class="acc-card"><b dir="ltr">${esc(A_.email || '')}</b>${badge}</div>${A.profileBlock ? A.profileBlock() : ''}${lim}${msgBox()}` + trialCard +
       plansHtml(true) + `<div class="row contact-row" style="margin-top:8px"><a class="btn contact wa" href="${waLink(buy)}" target="_blank" rel="noopener">💬 ${T('Subscribe on WhatsApp — ', 'اشترك على واتساب — ')}${T(pl.en, pl.ar)} · ${num(pl.egp)} ${T('EGP', 'جنيه')}</a></div>` +
       `<div class="lab">${T('Already have a code?', 'عندك كود؟')}</div><div class="acc-form"><input id="accCode" dir="ltr" autocapitalize="characters" autocomplete="off" placeholder="ANAT-XXXX-XXXX"><button class="btn primary wide" data-primary data-act="acc" data-k="redeem" ${st.busy ? 'disabled' : ''}>${T('Activate', 'تفعيل')}</button></div>${msgBox()}` +
       `<div class="row" style="margin-top:14px"><button class="btn danger" data-act="acc" data-k="out">${T('Sign out', 'تسجيل الخروج')}</button></div>`;
