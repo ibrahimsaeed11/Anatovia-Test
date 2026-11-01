@@ -7,17 +7,17 @@ window.__fprofLoaded = true;
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   /* hide = hub items that do not apply; first = items pinned to the top; note = faculty content still being prepared */
   const PROF = {
-    pt: { hide: ['dent'], first: [], color: '#ff9f45' },
-    med: { hide: ['dent', 'moves', 'tcards', 'calc'], first: [], color: '#5b9dff' },
-    dent: { hide: ['moves', 'tcards', 'calc', 'spinal'], first: ['dent', 'quiz', 'cards'], color: '#3fd8c8', start: 'head' },
-    nurs: { hide: ['dent', 'moves', 'tcards', 'calc', 'spinal'], first: [], color: '#5fd68a', note: true },
-    vet: { hide: ['dent', 'moves', 'tcards', 'calc', 'spinal'], first: [], color: '#c79a5b', note: true },
-    ahs: { hide: ['dent', 'tcards', 'calc', 'spinal'], first: [], color: '#a68bff', note: true },
-    pe: { hide: ['dent', 'tcards', 'spinal'], first: ['moves'], color: '#ffd23f', note: true },
-    pharm: { hide: ['dent', 'moves', 'tcards', 'calc', 'spinal'], first: [], color: '#ff7aa8', note: true },
-    other: { hide: ['dent', 'tcards', 'calc', 'spinal'], first: [], color: '#b2967d' },
+    pt: { hide: ['dent', 'dent3d'], first: [], color: '#ff9f45' },
+    med: { hide: ['dent', 'dent3d', 'moves', 'tcards', 'calc'], first: [], color: '#5b9dff' },
+    dent: { hide: ['moves', 'tcards', 'calc', 'spinal'], first: ['dent', 'dent3d', 'quiz', 'cards'], color: '#3fd8c8', start: 'head' },
+    nurs: { hide: ['dent', 'dent3d', 'moves', 'tcards', 'calc', 'spinal'], first: [], color: '#5fd68a', note: true },
+    vet: { hide: ['dent', 'dent3d', 'moves', 'tcards', 'calc', 'spinal'], first: [], color: '#c79a5b', note: true },
+    ahs: { hide: ['dent', 'dent3d', 'tcards', 'calc', 'spinal'], first: [], color: '#a68bff', note: true },
+    pe: { hide: ['dent', 'dent3d', 'tcards', 'spinal'], first: ['moves'], color: '#ffd23f', note: true },
+    pharm: { hide: ['dent', 'dent3d', 'moves', 'tcards', 'calc', 'spinal'], first: [], color: '#ff7aa8', note: true },
+    other: { hide: ['dent', 'dent3d', 'tcards', 'calc', 'spinal'], first: [], color: '#b2967d' },
   };
-  const FALLBACK = { hide: ['dent'], first: [], color: '#b2967d' };
+  const FALLBACK = { hide: ['dent', 'dent3d'], first: [], color: '#b2967d' };
   const LOOK = () => window.ANAT_FACLOOK || {};
   const view = () => { try { return Store.d.viewFac || ''; } catch (e) { return ''; } };
   A.facCode = () => view() || (A.acct && A.acct.fac) || '';
