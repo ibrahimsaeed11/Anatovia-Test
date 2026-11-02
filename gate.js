@@ -35,10 +35,10 @@
 
   /* ───────── Bono (inline SVG, states driven by CSS via data-s on the stage) ───────── */
   /* Bono = the sticker-pack bone mascot (same art as bono.js), rebuilt in layers so the face and arms can move */
-  const INK = '#4a342a', CRM = '#f6efe2';
+  const INK = '#000B33', CRM = '#f6efe2';
   const arm = (d) => `<path d="${d}" stroke="${INK}" stroke-width="19" fill="none" stroke-linecap="round"/><path d="${d}" stroke="${CRM}" stroke-width="11" fill="none" stroke-linecap="round"/>`;
   const hnd = (x, y, rot, flip, sc) => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${flip * (sc || 1)},${sc || 1})"><ellipse cx="-9" cy="-6" rx="5.5" ry="7.5" transform="rotate(-30 -9 -6)" fill="#fbf6ec" stroke="${INK}" stroke-width="3.5"/><circle r="12" fill="#fbf6ec" stroke="${INK}" stroke-width="4"/><path d="M-3 4 Q2 8 7 3" stroke="${INK}" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".55"/></g>`;
-  const eye = (id, x, dx) => `<g class="ir" id="${id}"><circle cx="${x}" cy="140" r="11" fill="${INK}"/><circle cx="${x + 3.3}" cy="135.8" r="4.6" fill="#fff"/><path d="M${x - 9.9} 141.1 Q${x} 152.6 ${x + 9.9} 141.1" stroke="#d7c9b8" stroke-width="1.8" fill="none" opacity=".8"/><circle cx="${x - 3.3}" cy="143.9" r="1.8" fill="#fff"/></g>`;
+  const eye = (id, x, dx) => `<g class="ir" id="${id}"><circle cx="${x}" cy="140" r="11" fill="${INK}"/><circle cx="${x + 3.3}" cy="135.8" r="4.6" fill="#fff"/><path d="M${x - 9.9} 141.1 Q${x} 152.6 ${x + 9.9} 141.1" stroke="#AEB8D9" stroke-width="1.8" fill="none" opacity=".8"/><circle cx="${x - 3.3}" cy="143.9" r="1.8" fill="#fff"/></g>`;
   const star = (x, y, sc, c) => `<path transform="translate(${x} ${y}) scale(${sc})" d="M0 -12 L3.5 -3.5 L12 -3 L5.5 3 L7.5 12 L0 7 L-7.5 12 L-5.5 3 L-12 -3 L-3.5 -3.5Z" fill="${c}" stroke="${INK}" stroke-width="1.5" stroke-linejoin="round"/>`;
   const BODY = ['<rect x="100" y="58" width="100" height="184" rx="34"/>', '<circle cx="104" cy="72" r="33"/>', '<circle cx="196" cy="72" r="33"/>', '<circle cx="104" cy="228" r="33"/>', '<circle cx="196" cy="228" r="33"/>'].join('');
   const BONO = `<svg class="bono" viewBox="50 18 200 196" role="img" aria-label="Bono" focusable="false">
@@ -49,7 +49,7 @@
 <g fill="url(#gbg)">${BODY}</g>
 <g fill="#d8c9ad" opacity=".55"><circle cx="118" cy="98" r="2.6"/><circle cx="185" cy="205" r="2.2"/><circle cx="176" cy="96" r="1.8"/><circle cx="122" cy="212" r="2.4"/><circle cx="192" cy="128" r="1.6"/></g>
 <path d="M78 70 Q74 100 90 120" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" opacity=".7"/>
-<path d="M172 238 Q200 240 214 224" stroke="#b2967d" stroke-width="5" fill="none" stroke-linecap="round" opacity=".5"/>
+<path d="M172 238 Q200 240 214 224" stroke="#E3B95B" stroke-width="5" fill="none" stroke-linecap="round" opacity=".5"/>
 <g class="arm dn">${arm('M104 160 Q74 166 72 196')}${hnd(72, 200, 0, -1)}${arm('M196 160 Q226 166 228 196')}${hnd(228, 200, 0, 1)}</g>
 <g class="ey">${eye('gIrL', 125)}${eye('gIrR', 175)}</g>
 <path class="eh" d="M114 144 Q125 128 136 144M164 144 Q175 128 186 144" stroke="${INK}" stroke-width="5" fill="none" stroke-linecap="round"/>
@@ -62,30 +62,30 @@
 <g class="arm cv">${arm('M104 162 Q80 156 112 142')}${arm('M196 162 Q220 156 188 142')}${hnd(125, 141, 0, -1, 1.5)}${hnd(175, 141, 0, 1, 1.5)}</g>
 <g class="arm pk">${arm('M104 162 Q80 156 112 142')}${arm('M196 162 Q238 150 192 112')}${hnd(125, 141, 0, -1, 1.5)}${hnd(180, 112, 20, 1, 1.4)}</g>
 <g class="arm hp">${arm('M104 158 Q70 150 66 108')}${hnd(66, 100, 10, -1)}${arm('M196 158 Q230 150 234 108')}${hnd(234, 100, -10, 1)}</g>
-<g class="sp">${star(64, 52, 0.9, '#e0b45a')}${star(238, 72, 0.7, '#b2967d')}${star(222, 34, 0.6, '#d98b6a')}</g>
+<g class="sp">${star(64, 52, 0.9, '#e0b45a')}${star(238, 72, 0.7, '#E3B95B')}${star(222, 34, 0.6, '#d98b6a')}</g>
 </g></svg>`;
 
-  const SPINE = [44, 52, 60, 68, 76, 84, 92, 98, 104, 108, 112, 116, 118, 120, 120].map((w, i) => `<rect class="v" style="animation-delay:${(i * 0.22).toFixed(2)}s" x="${60 - w / 2}" y="${20 + i * 52}" width="${w}" height="34" rx="14" fill="none" stroke="#d7c9b8" stroke-width="2"/>`).join('');
+  const SPINE = [44, 52, 60, 68, 76, 84, 92, 98, 104, 108, 112, 116, 118, 120, 120].map((w, i) => `<rect class="v" style="animation-delay:${(i * 0.22).toFixed(2)}s" x="${60 - w / 2}" y="${20 + i * 52}" width="${w}" height="34" rx="14" fill="none" stroke="#AEB8D9" stroke-width="2"/>`).join('');
 
   const FLOATS = [[8, 26, 14, 0], [18, 16, 18, 4], [30, 22, 16, 9], [44, 14, 20, 2], [57, 24, 15, 7], [68, 18, 19, 11], [79, 28, 17, 5], [90, 15, 21, 1], [36, 12, 22, 13], [63, 20, 18, 15]].map((f) => `<b style="left:${f[0]}%;--sz:${f[1]}px;--d:${f[2]}s;--dl:-${f[3]}s"></b>`).join('');
 
   /* ───────── styles ───────── */
   const css = `
 @font-face{font-family:"Cairo";src:url(fonts/cairo.woff) format("woff");font-weight:200 1000;font-style:normal;font-display:swap}
-#gate{--ln:#f5f1ea;--kh:#d7c9b8;--cm:#b2967d;--co:#7d5a44;--es:#4a342a;--pp:#fffdf9;--ls:#e3d8c8;position:fixed;inset:0;z-index:9000;overflow:auto;-webkit-overflow-scrolling:touch;background:var(--ln);color:var(--es);font-family:"Cairo","Segoe UI",Tahoma,"Noto Sans Arabic",system-ui,-apple-system,Arial,sans-serif;transition:opacity .6s ease,transform .6s ease,visibility .6s}
+#gate{--ln:#F8F4EA;--kh:#AEB8D9;--cm:#E3B95B;--co:#4A5580;--es:#000B33;--pp:#FFFDF8;--ls:#DDD6C4;position:fixed;inset:0;z-index:9000;overflow:auto;-webkit-overflow-scrolling:touch;background:var(--ln);color:var(--es);font-family:"Cairo","Segoe UI",Tahoma,"Noto Sans Arabic",system-ui,-apple-system,Arial,sans-serif;transition:opacity .6s ease,transform .6s ease,visibility .6s}
 #gate.out{opacity:0;transform:scale(1.03);visibility:hidden;pointer-events:none}
 #gate *{box-sizing:border-box}
 #gate button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
 #gate .gbg{position:fixed;inset:0;overflow:hidden;pointer-events:none}
 #gate .gbg i{position:absolute;border-radius:50%}
-#gate .gbg .c1{width:760px;height:760px;background:#ebe3d6;top:-300px;inset-inline-end:-200px;animation:gdrift 14s ease-in-out infinite alternate}
-#gate .gbg .c2{width:520px;height:520px;background:#e3d8c8;bottom:-260px;inset-inline-start:-120px;animation:gdrift 18s -6s ease-in-out infinite alternate-reverse}
+#gate .gbg .c1{width:760px;height:760px;background:#EDE6D4;top:-300px;inset-inline-end:-200px;animation:gdrift 14s ease-in-out infinite alternate}
+#gate .gbg .c2{width:520px;height:520px;background:#DDD6C4;bottom:-260px;inset-inline-start:-120px;animation:gdrift 18s -6s ease-in-out infinite alternate-reverse}
 @keyframes gdrift{from{transform:translate(0,0) scale(1)}to{transform:translate(40px,28px) scale(1.07)}}
 #gate .gbg b{position:absolute;bottom:-50px;width:var(--sz);height:var(--sz);opacity:0;animation:gfloat var(--d) linear infinite;animation-delay:var(--dl)}
 #gate .gbg b::before,#gate .gbg b::after{content:"";position:absolute;background:#c9b79f;border-radius:3px}#gate .gbg b::before{left:0;right:0;top:38%;height:24%}#gate .gbg b::after{top:0;bottom:0;left:38%;width:24%}
 @keyframes gfloat{0%{transform:translateY(0) rotate(0);opacity:0}12%{opacity:.55}88%{opacity:.55}100%{transform:translateY(-115vh) rotate(200deg);opacity:0}}
 #gate .gbg rect.v{transform-box:fill-box;transform-origin:center;animation:gwave 4.6s ease-in-out infinite}
-@keyframes gwave{0%,100%{transform:translateX(0);stroke:#d7c9b8}50%{transform:translateX(7px);stroke:#b2967d}}
+@keyframes gwave{0%,100%{transform:translateX(0);stroke:#AEB8D9}50%{transform:translateX(7px);stroke:#E3B95B}}
 #gate .gbg svg{position:absolute;top:40px;width:130px;height:820px;opacity:.9;overflow:visible}
 #gate .gbg svg.s1{inset-inline-start:max(20px,calc(50% - 560px))}#gate .gbg svg.s2{inset-inline-end:max(20px,calc(50% - 560px));transform:scaleY(-1)}
 #gate .gmain{position:relative;z-index:2;min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:calc(60px + env(safe-area-inset-top)) 16px calc(20px + env(safe-area-inset-bottom))}
@@ -95,8 +95,8 @@
 @keyframes gpeek{from{transform:translateY(70px);opacity:0}to{transform:none;opacity:1}}
 #gate .gsay.pop{animation:gpop .45s cubic-bezier(.2,1.5,.3,1)}
 @keyframes gpop{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
-#gate .gsay{position:absolute;top:10%;inset-inline-start:calc(100% + 8px);padding:8px 14px;border-radius:14px;background:var(--pp);border:1px solid var(--ls);box-shadow:0 8px 20px rgba(74,52,42,.1);font-size:13px;font-weight:600;color:var(--es);white-space:nowrap;transition:opacity .2s}
-#gate .gcard{position:relative;z-index:2;width:min(460px,100%);padding:22px 34px 24px;background:var(--pp);border:1px solid var(--ls);border-radius:24px;box-shadow:0 30px 60px rgba(74,52,42,.14);animation:gcardin .8s cubic-bezier(.2,.9,.25,1) both}
+#gate .gsay{position:absolute;top:10%;inset-inline-start:calc(100% + 8px);padding:8px 14px;border-radius:14px;background:var(--pp);border:1px solid var(--ls);box-shadow:0 8px 20px rgba(0,11,51,.1);font-size:13px;font-weight:600;color:var(--es);white-space:nowrap;transition:opacity .2s}
+#gate .gcard{position:relative;z-index:2;width:min(460px,100%);padding:22px 34px 24px;background:var(--pp);border:1px solid var(--ls);border-radius:24px;box-shadow:0 30px 60px rgba(0,11,51,.14);animation:gcardin .8s cubic-bezier(.2,.9,.25,1) both}
 @keyframes gcardin{from{opacity:0;transform:translateY(40px) scale(.97)}to{opacity:1;transform:none}}
 #gate .gwrap{display:flex;flex-direction:column;gap:12px}
 #gate .gwrap.fx>*{opacity:0;animation:gup .6s cubic-bezier(.2,.9,.25,1) forwards}
@@ -112,7 +112,7 @@
 #gate .gtabs button{flex:1;padding:12px 0;font-weight:500;font-size:15px;color:var(--co);border-bottom:3px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s}
 #gate .gtabs button.on{color:var(--es);font-weight:700;border-color:var(--es)}
 #gate input,#gate select{width:100%;height:46px;border-radius:12px;border:1px solid var(--kh);background:var(--pp);color:var(--es);-webkit-text-fill-color:var(--es);padding:0 16px;font-size:15px;font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s}
-#gate input::placeholder{color:#a38b77;-webkit-text-fill-color:#a38b77}
+#gate input::placeholder{color:#8E98BD;-webkit-text-fill-color:#8E98BD}
 #gate input:-webkit-autofill,#gate input:-webkit-autofill:hover,#gate input:-webkit-autofill:focus,#gate input:autofill{-webkit-text-fill-color:var(--es);caret-color:var(--es);-webkit-box-shadow:0 0 0 60px var(--pp) inset;transition:background-color 9999s}
 #gate input:focus,#gate select:focus{border-color:var(--co);box-shadow:0 0 0 3px rgba(125,90,68,.18)}
 #gate select option,#gate select optgroup{background:#fff;color:var(--es)}
@@ -120,7 +120,7 @@
 #gate .gpw button:hover,#gate .gpw button.on{color:var(--es)}
 #gate .gb{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:48px;padding:0 18px;border-radius:12px;font-weight:600;font-size:15px;border:1px solid var(--kh);background:#fff;color:var(--es);transition:transform .15s,box-shadow .2s,background .2s}
 #gate .gb:hover{background:var(--ln)}#gate .gb:active{transform:scale(.98)}
-#gate .gb.pri{background:var(--es);color:var(--ln);border-color:transparent;font-weight:700;font-size:16px;box-shadow:0 8px 20px rgba(74,52,42,.25)}
+#gate .gb.pri{background:var(--es);color:var(--ln);border-color:transparent;font-weight:700;font-size:16px;box-shadow:0 8px 20px rgba(0,11,51,.25)}
 #gate .gb.pri:hover{background:#3b2820}
 #gate .gb.pri{overflow:hidden}#gate .gb.pri::after{content:"";position:absolute;top:0;bottom:0;width:36%;left:-60%;background:linear-gradient(100deg,transparent,rgba(245,241,234,.35),transparent);transform:skewX(-20deg);animation:gshine 4.2s 1.6s ease-in-out infinite}
 @keyframes gshine{0%{left:-60%}50%,100%{left:130%}}
@@ -141,13 +141,13 @@
 #gate .yrs{display:flex;flex-wrap:wrap;gap:8px}
 #gate .yr{min-width:48px;height:42px;padding:0 14px;border-radius:12px;background:var(--pp);border:1.5px solid var(--ls);font-weight:700;color:var(--es);transition:transform .15s,background .2s,border-color .2s}
 #gate .yr.sel{background:var(--es);color:var(--ln);border-color:var(--es);transform:translateY(-2px)}
-#gate .gcf{position:fixed;inset:0;z-index:5;display:grid;place-items:center;padding:18px;background:rgba(74,52,42,.55);animation:gfade .25s both}
-#gate .gcf .gc{max-width:420px;width:100%;padding:24px 22px;border-radius:20px;background:var(--pp);border:1px solid var(--ls);box-shadow:0 24px 70px rgba(74,52,42,.35)}
+#gate .gcf{position:fixed;inset:0;z-index:5;display:grid;place-items:center;padding:18px;background:rgba(0,11,51,.55);animation:gfade .25s both}
+#gate .gcf .gc{max-width:420px;width:100%;padding:24px 22px;border-radius:20px;background:var(--pp);border:1px solid var(--ls);box-shadow:0 24px 70px rgba(0,11,51,.35)}
 #gate .gr{display:flex;gap:10px}
 #gate .gs{padding:12px;border-radius:12px;background:var(--ln);border:1px solid var(--ls);font-size:14px;line-height:1.9;color:var(--es)}
 #gate .glang{position:fixed;top:calc(12px + env(safe-area-inset-top));inset-inline-end:14px;z-index:6;height:38px;padding:0 14px;border-radius:12px;background:var(--pp);border:1px solid var(--kh);color:var(--es);font-weight:600;font-size:13px}
 /* Bono */
-#gate .bono{display:block;width:100%;height:auto;filter:drop-shadow(0 16px 18px rgba(74,52,42,.22))}
+#gate .bono{display:block;width:100%;height:auto;filter:drop-shadow(0 16px 18px rgba(0,11,51,.22))}
 #gate .bono .bb{transform-box:fill-box;transform-origin:50% 100%;animation:gbob 3.6s ease-in-out infinite}
 @keyframes gbob{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-4px) rotate(1.4deg)}70%{transform:translateY(-3px) rotate(-1.4deg)}}
 #gate .bono .ey{transform-box:fill-box;transform-origin:center;animation:gblink 5.5s infinite}
@@ -184,7 +184,7 @@
     return Object.keys(G).map((g) => `<optgroup label="${esc(ar() ? GN[g][0] : GN[g][1])}">` + G[g].map((s) => { const u = U[s.split('|')[0]]; return `<option value="${u.c}" ${pf.uni === u.c ? 'selected' : ''}>${esc(ar() ? u.ar : u.en)}</option>`; }).join('') + '</optgroup>').join('') +
       `<option value="other" ${pf.uni === 'other' ? 'selected' : ''}>${T('Other / not listed', 'أخرى / مش موجودة')}</option>`;
   };
-  const MARK = '<svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="15" fill="none" stroke="#7d5a44" stroke-width="2"/><path d="M17 8v18M11 13h12M12 19h10" stroke="#7d5a44" stroke-width="2" stroke-linecap="round"/></svg>';
+  const MARK = '<svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="15" fill="none" stroke="#4A5580" stroke-width="2"/><path d="M17 8v18M11 13h12M12 19h10" stroke="#4A5580" stroke-width="2" stroke-linecap="round"/></svg>';
   const brandRow = () => '';
   const errBox = () => (msg ? `<div class="ge" role="alert">${esc(msg)}</div>` : '');
   const nFacts = () => { const n = (window.CATALOG && CATALOG.length) || 2000; return Math.floor(n / 100) * 100; };

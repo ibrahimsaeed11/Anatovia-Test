@@ -248,7 +248,7 @@ if (!window.__extrasLoaded) (() => {
     A.R.draw(A.cam); if (A.afterDraw) A.afterDraw();
     const W = gl.width, H = gl.height, bar = Math.round(Math.max(52, W * 0.085)), c = document.createElement('canvas'); c.width = W; c.height = H + bar;
     const g = c.getContext('2d'), dark = document.documentElement.dataset.theme !== 'light';
-    g.fillStyle = dark ? '#2a1d17' : '#f5f1ea'; g.fillRect(0, 0, W, H + bar);
+    g.fillStyle = dark ? '#000B33' : '#F8F4EA'; g.fillRect(0, 0, W, H + bar);
     g.drawImage(gl, 0, 0, W, H); if (lm) g.drawImage(lm, 0, 0, W, H); if (dv) g.drawImage(dv, 0, 0, W, H);
     g.fillStyle = dark ? '#0a1024' : '#dde5f7'; g.fillRect(0, H, W, bar); g.fillStyle = dark ? '#fff' : '#18204a'; g.font = `800 ${Math.round(bar * 0.42)}px system-ui,Arial`; g.textBaseline = 'middle'; g.textAlign = 'center';
     g.fillText('Anatovia · anatovia.eg', W / 2, H + bar / 2);

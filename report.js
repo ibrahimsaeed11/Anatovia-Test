@@ -47,7 +47,7 @@ if (!window.__reportLoaded) (() => {
   function render() {
     const D = collect(), rtl = ar();
     const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const x = cv.getContext('2d');
-    const ink = '#4a342a', mut = '#7d5a44', acc = '#7d5a44', good = '#2e9e5b', gold = '#e69b00', bad = '#d64550', line = '#e3d8c8', soft = '#f5f1ea';
+    const ink = '#000B33', mut = '#4A5580', acc = '#4A5580', good = '#2e9e5b', gold = '#e69b00', bad = '#d64550', line = '#DDD6C4', soft = '#F8F4EA';
     x.fillStyle = '#fff'; x.fillRect(0, 0, W, H);
     const X = (px, w = 0) => (rtl ? W - px - w : px);            // mirror horizontally for Arabic
     const rect = (px, py, w, h, col, r = 0) => { x.fillStyle = col; if (r) { x.beginPath(); x.roundRect ? x.roundRect(X(px, w), py, w, h, r) : x.rect(X(px, w), py, w, h); x.fill(); } else x.fillRect(X(px, w), py, w, h); };

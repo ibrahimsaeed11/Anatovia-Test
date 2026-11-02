@@ -15,9 +15,9 @@ window.__fprofLoaded = true;
     ahs: { hide: ['dent', 'dent3d', 'tcards', 'calc', 'spinal'], first: [], color: '#a68bff', note: true },
     pe: { hide: ['dent', 'dent3d', 'tcards', 'spinal'], first: ['moves'], color: '#ffd23f', note: true },
     pharm: { hide: ['dent', 'dent3d', 'moves', 'tcards', 'calc', 'spinal'], first: [], color: '#ff7aa8', note: true },
-    other: { hide: ['dent', 'dent3d', 'tcards', 'calc', 'spinal'], first: [], color: '#b2967d' },
+    other: { hide: ['dent', 'dent3d', 'tcards', 'calc', 'spinal'], first: [], color: '#E3B95B' },
   };
-  const FALLBACK = { hide: ['dent', 'dent3d'], first: [], color: '#b2967d' };
+  const FALLBACK = { hide: ['dent', 'dent3d'], first: [], color: '#E3B95B' };
   const LOOK = () => window.ANAT_FACLOOK || {};
   const view = () => { try { return Store.d.viewFac || ''; } catch (e) { return ''; } };
   A.facCode = () => view() || (A.acct && A.acct.fac) || '';

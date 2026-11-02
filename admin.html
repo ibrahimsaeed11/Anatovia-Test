@@ -6,18 +6,18 @@
 <meta name="robots" content="noindex,nofollow">
 <title>Anatovia Admin</title>
 <style>
-:root{--bg:#0b102e;--card:#141b45;--line:#2a3470;--ink:#eef1ff;--mut:#9aa6d6;--acc:#5eead4;--bad:#ff7b8a;--good:#7be495}
+:root{--bg:#000B33;--card:#0A1540;--line:#1B2A63;--ink:#F8F4EA;--mut:#AEB8D9;--acc:#E3B95B;--bad:#ff7b8a;--good:#7be495}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,"Segoe UI",Tahoma,Arial,sans-serif;padding:16px;max-width:980px;margin-inline:auto}
 h1{font-size:22px;margin:0 0 4px}h2{font-size:17px;margin:0 0 10px}.mut{color:var(--mut)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:14px 0}
-button,select,input{font:inherit;color:inherit;background:#1d2660;border:1px solid var(--line);border-radius:10px;padding:8px 12px}
-button{cursor:pointer;font-weight:700}button.p{background:var(--acc);color:#04201c;border:0}button.d{color:var(--bad)}button.s{padding:4px 9px;font-size:12.5px}button:disabled{opacity:.5}
+button,select,input{font:inherit;color:inherit;background:#15235A;border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+button{cursor:pointer;font-weight:700}button.p{background:var(--acc);color:#000B33;border:0}button.d{color:var(--bad)}button.s{padding:4px 9px;font-size:12.5px}button:disabled{opacity:.5}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}.stat{background:#1d2660;border-radius:12px;padding:10px;text-align:center}.stat b{display:block;font-size:22px;color:var(--acc)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}.stat{background:#15235A;border-radius:12px;padding:10px;text-align:center}.stat b{display:block;font-size:22px;color:var(--acc)}
 table{width:100%;border-collapse:collapse;font-size:13.5px}th,td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:start;vertical-align:middle}th{color:var(--mut)}
 .tw{overflow-x:auto}code,.code{font-family:ui-monospace,Consolas,monospace;direction:ltr;unicode-bidi:embed}
-.tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;background:#1d2660}.tag.ok{color:var(--good)}.tag.no{color:var(--bad)}
-textarea{width:100%;min-height:110px;background:#0b102e;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;font-family:ui-monospace,Consolas,monospace;direction:ltr}
+.tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;background:#15235A}.tag.ok{color:var(--good)}.tag.no{color:var(--bad)}
+textarea{width:100%;min-height:110px;background:#000B33;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;font-family:ui-monospace,Consolas,monospace;direction:ltr}
 #msg{margin:8px 0;min-height:22px}#msg.bad{color:var(--bad)}#msg.ok{color:var(--good)}
 </style>
 </head>
@@ -200,7 +200,7 @@ function editFac(id) {
   const u = users.find((x) => x.id === id); if (!u) return;
   const uo = Object.keys(UN).map((c) => `<option value="${c}" ${u.uni === c ? 'selected' : ''}>${esc(UN[c].ar)}</option>`).join('') + `<option value="other" ${u.uni === 'other' ? 'selected' : ''}>أخرى</option>`;
   const fo = Object.keys(FC).map((c) => `<option value="${c}" ${u.fac === c ? 'selected' : ''}>${esc(FC[c].ar)}</option>`).join('');
-  $('fedit').innerHTML = `<div class="card" style="border-color:var(--accent,#8c9cff)"><b class="code">${esc(u.email)}</b><div class="row" style="margin:8px 0"><select id="eu">${uo}</select><select id="ef">${fo}</select></div><div class="row"><button class="p" id="esave">حفظ</button><button class="d s" id="eclear">مسح الاختيار (يختار تاني)</button><button class="s" id="ecancel">إلغاء</button></div></div>`;
+  $('fedit').innerHTML = `<div class="card" style="border-color:var(--accent,#AEB8D9)"><b class="code">${esc(u.email)}</b><div class="row" style="margin:8px 0"><select id="eu">${uo}</select><select id="ef">${fo}</select></div><div class="row"><button class="p" id="esave">حفظ</button><button class="d s" id="eclear">مسح الاختيار (يختار تاني)</button><button class="s" id="ecancel">إلغاء</button></div></div>`;
   $('fedit').scrollIntoView({ block: 'center' });
   $('ecancel').onclick = () => { $('fedit').innerHTML = ''; };
   $('esave').onclick = async () => { try { await db.collection('users').doc(id).update({ uni: $('eu').value, fac: $('ef').value, facAt: FV.serverTimestamp() }); $('fedit').innerHTML = ''; say('تم التعديل ✅', 'ok'); load(); } catch (e) { say('فشل: ' + (e.code || e.message), 'bad'); } };

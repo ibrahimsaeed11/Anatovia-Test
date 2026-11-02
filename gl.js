@@ -167,9 +167,9 @@ void main(){
   float ang = atan(vW.z, vW.x); float spoke = (1.0 - smoothstep(0.0, 0.02, abs(fract(ang / 0.5236 + 0.5) - 0.5))) * smoothstep(0.1, 0.3, r);
   float line = clamp(ring + spoke * 0.6, 0.0, 1.0) * 0.28 * fade;
   vec3 col = mix(uFloorCol, uLine, line);
-  float a = fade * 0.92;
+  float a = 0.0;   // no floor disc / rings any more: only a soft contact shadow under the model
   col = mix(col, vec3(0.0), shadow * uDark);
-  a = max(a, shadow * 0.9);
+  a = shadow * 0.9;
   gl_FragColor = vec4(col * a, a);
 }`;
 

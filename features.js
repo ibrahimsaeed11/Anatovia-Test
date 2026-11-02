@@ -152,7 +152,7 @@
       c.fillStyle = on ? 'rgba(10,60,80,.96)' : (dk ? 'rgba(14,20,44,.88)' : 'rgba(255,255,255,.94)');
       c.strokeStyle = on ? '#19e3f2' : (dk ? 'rgba(255,255,255,.28)' : 'rgba(20,30,70,.25)'); c.lineWidth = on ? 2 : 1;
       rrect(c, q.lx, q.ly, q.w, 22, 8); c.fill(); c.stroke();
-      c.fillStyle = on ? '#fff' : (dk ? '#f5f1ea' : '#4a342a'); c.textAlign = 'center';
+      c.fillStyle = on ? '#fff' : (dk ? '#F8F4EA' : '#000B33'); c.textAlign = 'center';
       c.fillText(q.txt, q.lx + q.w / 2, q.ly + 11.5, q.w - 10);
       if (on) { c.strokeStyle = '#19e3f2'; c.lineWidth = 2; c.beginPath(); c.arc(q.sx, q.sy, 9, 0, 6.3); c.stroke(); }
       c.globalAlpha = 1;

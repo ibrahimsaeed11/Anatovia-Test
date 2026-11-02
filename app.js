@@ -264,20 +264,42 @@ const ICON = {
   spin: '<svg viewBox="0 0 24 24" class="ico"><path d="M20 12a8 8 0 1 1-2.5-5.8M20 4v5h-5"/></svg>',
   reset: '<svg viewBox="0 0 24 24" class="ico"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4.5v4h4"/></svg>',
 };
+const SYSICO = {
+  bone: 'M6.5 3.5a2.5 2.5 0 0 1 3.5 3l7.5 7.5a2.5 2.5 0 1 1-3.5 3.5L6.5 10a2.5 2.5 0 0 1 0-6.5z', muscle: 'M3 12c4-6 14-6 18 0-4 6-14 6-18 0z',
+  vessel: 'M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z', nerve: 'M12 21V11M12 11L6 5M12 11l6-6M12 16l-4-3',
+  brain: 'M9 4a3 3 0 0 0-3 3 3 3 0 0 0-2 3 3 3 0 0 0 1 5 3 3 0 0 0 4 4 3 3 0 0 0 3-1V5a2 2 0 0 0-3-1zM15 4a3 3 0 0 1 3 3 3 3 0 0 1 2 3 3 3 0 0 1-1 5 3 3 0 0 1-4 4V5',
+  organ: 'M12 20s-7-4.5-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.5-7 10-7 10z', ligament: 'M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1',
+};
+const SHORT = { ligament: { en: 'Ligaments', ar: 'الأربطة' } };
+const MORE_ICO = '<svg viewBox="0 0 24 24" class="ico"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>';
 function renderChips() {
-  const nav = $('chips'); let h = '';
-  for (const s of SYSTEMS) h += `<button class="chip c-${s}" data-act="layer" data-s="${s}" data-state="${S.layers[s]}"><span class="dot"></span>${t(s)}${A.PAID_SYS && A.PAID_SYS.has(s) && !(A.isPremium && A.isPremium()) ? ' 🔒' : ''}</button>`;
-  h += '<span class="chip sep"></span>';
-  h += `<button class="chip ${S.region ? 'active' : ''}" data-act="regions">${ICON.regions}${S.region ? t(S.region) : t('regions')}</button>`;
-  h += `<button class="chip ${S.explode > 0 ? 'active' : ''}" data-act="explode">${ICON.explode}${t('explode')}</button>`;
-  if (S.hideStack.length) h += `<button class="chip" data-act="undo">${ICON.undo}${t('undo')}</button>`;
-  if (S.hidden.size || S.iso >= 0 || S.region || S.pulled.size || S.moveSet || S.focus || S.cutOn || S.fnOn) h += `<button class="chip" data-act="showall">${ICON.all}${t('showAll')}</button>`;
-  if (A.extraChips) h += A.extraChips();
-  if (S.layers.bone !== 'off') h += `<button class="chip ${S.dent === 'dec' ? 'active' : ''}" data-act="dent">🦷 ${S.dent === 'dec' ? t('dentDec') : t('dentPerm')}</button>`;
-  h += `<button class="chip ${S.spin ? 'active' : ''}" data-act="spin">${ICON.spin}${t('spin')}</button>`;
-  h += `<button class="chip" data-act="resetview">${ICON.reset}${t('resetView')}</button>`;
+  const nav = $('chips'), ar = S.lang === 'ar'; let h = '';
+  const premium = A.isPremium && A.isPremium();
+  /* layers dock (bottom) */
+  h += '<div class="dock">';
+  for (const s of SYSTEMS) {
+    const lock = A.PAID_SYS && A.PAID_SYS.has(s) && !premium ? '<i>🔒</i>' : '';
+    h += `<button class="dk c-${s}" data-act="layer" data-s="${s}" data-state="${S.layers[s]}"><svg viewBox="0 0 24 24"><path d="${SYSICO[s]}"/></svg><span>${SHORT[s] ? SHORT[s][ar ? 'ar' : 'en'] : t(s)}</span>${lock}</button>`;
+  }
+  h += '</div>';
+  /* tools (side) */
+  const tl = (act, icon, label, on) => `<button class="tl ${on ? 'on' : ''}" data-act="${act}" title="${label}" aria-label="${label}">${icon}</button>`;
+  h += '<div class="tools">';
+  h += tl('regions', ICON.regions, S.region ? t(S.region) : t('regions'), !!S.region);
+  h += tl('explode', ICON.explode, t('explode'), S.explode > 0);
+  if (S.layers.bone !== 'off') h += tl('dent', '<svg viewBox="0 0 24 24" class="ico"><path d="M12 5.5C10.5 4 8.5 3.5 7 4.2 4.8 5.2 4.5 8 5.5 10.5c.8 2 .8 4 1.2 6.5.3 1.7 1.2 3 2.1 3 1.2 0 1.3-3.2 1.7-4.4.3-.8 1.6-.8 1.9 0 .4 1.2.5 4.4 1.7 4.4.9 0 1.8-1.3 2.1-3 .4-2.5.4-4.5 1.2-6.5C19.5 8 19.2 5.2 17 4.2c-1.5-.7-3.5-.2-5 1.3z"/></svg>', S.dent === 'dec' ? t('dentDec') : t('dentPerm'), S.dent === 'dec');
+  h += tl('spin', ICON.spin, t('spin'), !!S.spin);
+  h += tl('resetview', ICON.reset, t('resetView'), false);
+  if (S.hideStack.length) h += tl('undo', ICON.undo, t('undo'), false);
+  if (S.hidden.size || S.iso >= 0 || S.region || S.pulled.size || S.moveSet || S.focus || S.cutOn || S.fnOn) h += tl('showall', ICON.all, t('showAll'), false);
+  const extra = A.extraChips ? A.extraChips() : '';
+  if (extra) h += tl('more', MORE_ICO, ar ? 'المزيد' : 'More', !!S.moreOpen);
+  h += '</div>';
+  if (extra && S.moreOpen) h += `<div class="more">${extra}</div>`;
   nav.innerHTML = h;
 }
+document.addEventListener('click', (ev) => { if (S.moreOpen && ev.target.closest('.more .chip')) setTimeout(() => { S.moreOpen = false; renderChips(); }, 0); });
+A.acts.more = () => { S.moreOpen = !S.moreOpen; renderChips(); };
 A.acts.layer = async (el) => {
   const s = el.dataset.s, order = ['on', 'ghost', 'off'];
   if (A.PAID_SYS && A.PAID_SYS.has(s) && !(A.isPremium && A.isPremium()) && S.layers[s] === 'off') { A.paywall('Vessels, nerves, brain, organs and ligaments are part of Premium.', 'الأوعية والأعصاب والمخ والأعضاء والأربطة ضمن النسخة المميزة.'); return; }
@@ -440,7 +462,7 @@ function applyTheme() {
   const dark = S.theme === 'dark';
   R.floorCol = dark ? [0.17, 0.12, 0.09] : [0.85, 0.80, 0.73]; R.lineCol = dark ? [0.70, 0.60, 0.50] : [0.49, 0.35, 0.27];
   R.floorDark = dark ? 1 : 0.55; R.light = dark ? 1 : 0.5;
-  const m = document.querySelector('meta[name=theme-color]'); if (m) m.content = dark ? '#2a1d17' : '#f5f1ea';
+  const m = document.querySelector('meta[name=theme-color]'); if (m) m.content = dark ? '#000B33' : '#F8F4EA';
   requestRender();
 }
 
